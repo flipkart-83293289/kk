@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Apple iPhone 17 Pro</title>
+<title>Apple iPhone 17 Pro - Flipkart</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
   :root {
     --bg-page: #f1f2f4;
@@ -16,11 +16,9 @@
     --text-secondary: #717478;
     --fk-blue: #2874f0;
     --gold: #b38b2d;
-    --gold-light: #fef9ed;
-    --discount-green: #388e3c;
     --rating-green: #388e3c;
-    --cart-yellow: #ff9f00;
     --buy-orange: #fb641b;
+    --minutes-color: #2a55e5;
     --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
@@ -29,6 +27,10 @@
     margin: 0;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
@@ -40,7 +42,7 @@
     min-height: 100vh;
   }
 
-  /* Mobile App Shell Frame */
+  /* Mobile App Shell */
   .mobile-container {
     width: 100%;
     max-width: 480px;
@@ -50,10 +52,10 @@
     flex-direction: column;
     position: relative;
     box-shadow: 0 0 20px rgba(0,0,0,0.06);
-    padding-bottom: 60px; /* offset for sticky buy bar */
+    padding-bottom: 64px; /* Space for bottom action bar */
   }
 
-  /* Sticky Top Header */
+  /* Header */
   header.topbar {
     position: sticky;
     top: 0;
@@ -71,21 +73,28 @@
     width: auto;
     display: block;
   }
-  .search-btn {
-    width: 38px;
-    height: 38px;
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-icon-btn {
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-primary);
     border-radius: 50%;
-    transition: background 0.15s ease;
+    cursor: pointer;
+    background: none;
+    border: none;
   }
-  .search-btn:active {
+  .header-icon-btn:active {
     background: #f1f5f9;
   }
 
-  /* Mobile Touch Carousel */
+  /* Carousel */
   .carousel-wrapper {
     position: relative;
     width: 100%;
@@ -111,11 +120,10 @@
     align-items: center;
     justify-content: center;
     background: #ffffff;
-    overflow: hidden;
   }
   .carousel-slide img {
-    width: 90%;
-    height: 90%;
+    width: 88%;
+    height: 88%;
     object-fit: contain;
   }
   .carousel-slide iframe {
@@ -123,21 +131,41 @@
     height: 100%;
     border: none;
   }
-  .carousel-counter {
+
+  /* Bottom-Right Rating Badge on Image */
+  .image-rating-badge {
     position: absolute;
-    bottom: 12px;
+    bottom: 14px;
     right: 14px;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--border-dark);
+    padding: 4px 10px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+  .image-rating-badge:active {
+    transform: scale(0.96);
+  }
+  .star-pill {
+    background: var(--rating-green);
     color: #ffffff;
     font-size: 11px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 12px;
-    letter-spacing: 0.5px;
-    backdrop-filter: blur(2px);
+    padding: 2px 5px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
   }
 
-  /* Product Details Content */
+  /* Product Details */
   .product-content {
     padding: 14px 16px;
     background: #ffffff;
@@ -146,7 +174,6 @@
     font-size: 16px;
     font-weight: 600;
     line-height: 1.35;
-    color: var(--text-primary);
     margin-bottom: 6px;
   }
   .product-subtitle {
@@ -154,32 +181,6 @@
     color: var(--text-secondary);
     margin-bottom: 10px;
   }
-
-  /* Ratings Row */
-  .ratings-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .rating-badge {
-    background: var(--rating-green);
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-  }
-  .rating-count {
-    font-size: 12px;
-    color: var(--text-secondary);
-    font-weight: 500;
-  }
-
-  /* Price Section */
   .price-card {
     display: flex;
     align-items: baseline;
@@ -189,7 +190,6 @@
   .price-current {
     font-size: 24px;
     font-weight: 700;
-    color: var(--text-primary);
   }
   .price-original {
     font-size: 14px;
@@ -198,16 +198,16 @@
   }
   .price-off {
     font-size: 14px;
-    color: var(--discount-green);
+    color: var(--rating-green);
     font-weight: 700;
   }
   .price-tax {
     font-size: 11px;
     color: var(--text-secondary);
-    margin-bottom: 14px;
+    margin-bottom: 4px;
   }
 
-  /* Dividers between mobile sections */
+  /* Dividers */
   .section-divider {
     height: 8px;
     background: var(--bg-page);
@@ -215,7 +215,7 @@
     border-bottom: 1px solid var(--border);
   }
 
-  /* Section Wrapper */
+  /* Highlights Section */
   .section-box {
     padding: 14px 16px;
     background: #ffffff;
@@ -223,13 +223,10 @@
   .section-heading {
     font-size: 14px;
     font-weight: 700;
-    color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 12px;
   }
-
-  /* Highlights Micro-Cards */
   .highlights-list {
     display: flex;
     flex-direction: column;
@@ -253,7 +250,6 @@
   .highlight-text-main {
     font-size: 13px;
     font-weight: 600;
-    color: var(--text-primary);
     line-height: 1.25;
   }
   .highlight-text-sub {
@@ -262,96 +258,21 @@
     margin-top: 2px;
   }
 
-  /* Offers Cards */
-  .offers-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .offer-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    font-size: 12px;
-    line-height: 1.35;
-  }
-  .offer-badge {
-    color: var(--gold);
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  .offer-desc {
-    color: var(--text-primary);
-  }
-
-  /* Mobile Tabs for Specs & Reviews */
-  .tab-buttons {
-    display: flex;
-    border-bottom: 1px solid var(--border-dark);
-    margin-bottom: 14px;
-  }
-  .tab-btn {
-    flex: 1;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-  }
-  .tab-btn.active {
-    color: var(--fk-blue);
-    border-bottom-color: var(--fk-blue);
-  }
-  .tab-content {
-    display: none;
-  }
-  .tab-content.active {
-    display: block;
-  }
-
-  /* Specs List */
-  .specs-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  .specs-table tr {
-    border-bottom: 1px solid var(--border);
-  }
-  .specs-table td {
-    padding: 10px 4px;
-    font-size: 12px;
-    vertical-align: top;
-    line-height: 1.35;
-  }
-  .specs-table td:first-child {
-    color: var(--text-secondary);
-    width: 38%;
-  }
-  .specs-table td:last-child {
-    color: var(--text-primary);
-    font-weight: 500;
-  }
-
-  /* Reviews & Photo Scroller */
+  /* Reviews & Customer Photos */
   .review-photos-scroller {
     display: flex;
     gap: 8px;
     overflow-x: auto;
     scrollbar-width: none;
     margin-bottom: 14px;
-    padding-bottom: 2px;
   }
   .review-photos-scroller::-webkit-scrollbar {
     display: none;
   }
   .review-photo-item {
-    width: 72px;
-    height: 72px;
-    flex: 0 0 72px;
+    width: 76px;
+    height: 76px;
+    flex: 0 0 76px;
     border-radius: 6px;
     overflow: hidden;
     border: 1px solid var(--border-dark);
@@ -362,11 +283,8 @@
     object-fit: cover;
   }
   .review-card {
-    padding: 10px 0;
+    padding: 12px 0;
     border-bottom: 1px solid var(--border);
-  }
-  .review-card:last-child {
-    border-bottom: none;
   }
   .review-head {
     display: flex;
@@ -374,18 +292,45 @@
     gap: 8px;
     margin-bottom: 4px;
   }
+  .review-badge {
+    background: var(--rating-green);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
   .review-author {
     font-size: 12px;
     font-weight: 600;
-    color: var(--text-primary);
   }
   .review-body {
     font-size: 12px;
-    color: #4b5563;
+    color: #374151;
     line-height: 1.35;
   }
 
-  /* Sticky Bottom Buy Bar (Flipkart Style) */
+  /* See All Reviews Button */
+  .see-all-reviews-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid var(--fk-blue);
+    color: var(--fk-blue);
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+    transition: background 0.15s ease;
+  }
+  .see-all-reviews-btn:active {
+    background: #eff6ff;
+  }
+
+  /* Mobile Sticky Bottom Bar */
   .sticky-bottom-bar {
     position: fixed;
     bottom: 0;
@@ -393,34 +338,68 @@
     transform: translateX(-50%);
     width: 100%;
     max-width: 480px;
-    height: 52px;
+    height: 54px;
     display: flex;
     background: #ffffff;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
     z-index: 150;
+    border-top: 1px solid var(--border-dark);
   }
-  .action-btn {
+  .bottom-btn {
     flex: 1;
     border: none;
     font-size: 14px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
   }
-  .btn-add-cart {
-    background: var(--cart-yellow);
-    color: #ffffff;
+  .btn-minutes {
+    background: #ffffff;
+    color: var(--minutes-color);
+    border-right: 1px solid var(--border-dark);
+    display: flex;
+    gap: 6px;
   }
   .btn-buy-now {
     background: var(--buy-orange);
     color: #ffffff;
   }
-  .action-btn:active {
-    filter: brightness(0.92);
+  .bottom-btn:active {
+    filter: brightness(0.94);
+  }
+
+  /* Full Page Iframe Container */
+  #iframeOverlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 99999;
+    display: none;
+    flex-direction: column;
+  }
+  #appFrame {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* Invisible Trigger (Top-Left Corner) to Refresh Page */
+  #invisibleRefreshTrigger {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 65px;
+    height: 65px;
+    z-index: 100000;
+    cursor: pointer;
+    background: transparent;
+    display: none;
   }
 </style>
 </head>
@@ -429,29 +408,41 @@
 <div class="mobile-container">
   <!-- Header -->
   <header class="topbar">
-    <a href="https://www.flipkart.com" class="brand-logo" title="Flipkart">
+    <a href="https://www.flipkart.com" class="brand-logo" onclick="openInIframe(event, 'https://www.flipkart.com')">
       <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fk-mp-c815b6.svg" alt="Flipkart">
     </a>
-    <a href="https://www.flipkart.com/searchsuggestion" target="_self" class="search-btn" title="Search">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-    </a>
+    <div class="header-actions">
+      <!-- Search (opens in full page iframe) -->
+      <button class="header-icon-btn" onclick="openInIframe(event, 'https://www.flipkart.com/searchsuggestion')" title="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+
+      <!-- Cart (opens outside iframe directly) -->
+      <a href="https://www.flipkart.com/viewcart" target="_self" class="header-icon-btn" title="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+      </a>
+    </div>
   </header>
 
-  <!-- Mobile Swipe Media Carousel (Slide 1: Image, Slide 2: Video, Slide 3+: Images) -->
+  <!-- Image & Video Carousel -->
   <div class="carousel-wrapper">
-    <div class="carousel-track" id="carouselTrack">
+    <div class="carousel-track">
       <!-- 1. Main Image -->
       <div class="carousel-slide">
         <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="iPhone 17 Pro Front">
       </div>
       <!-- 2. Embedded Video -->
       <div class="carousel-slide">
-        <iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?playsinline=1&modestbranding=1" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe src="https://www.youtube-nocookie.com/embed/FAbwR58dNHo?playsinline=1&modestbranding=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
-      <!-- 3 to 12. Images -->
+      <!-- 3 to 12. Gallery Images -->
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/q/s/s/-original-imahft5nxa9wukz8.jpeg?q=90" alt="Slide 3"></div>
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/c/k/m/-original-imahft5nz2k5gfm3.jpeg?q=90" alt="Slide 4"></div>
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/a/p/v/-original-imahft5nch3khzvu.jpeg?q=90" alt="Slide 5"></div>
@@ -463,31 +454,31 @@
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/n/a/n/-original-imahft5nq7z4bnmn.jpeg?q=90" alt="Slide 11"></div>
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/l/z/q/-original-imahft57f3qjg325.jpeg?q=90" alt="Slide 12"></div>
     </div>
-    <!-- Live slide counter badge -->
-    <div class="carousel-counter" id="carouselCounter">1 / 12</div>
+
+    <!-- Rating Badge on bottom right of the image -->
+    <div class="image-rating-badge" onclick="scrollToReviews()" title="Go to Reviews">
+      <span class="star-pill">4.7 ★</span>
+      <span>|</span>
+      <span>44.8k+</span>
+    </div>
   </div>
 
   <!-- Primary Product Info -->
   <div class="product-content">
-    <h1 class="product-title">Apple iPhone 17 Pro (Cosmic Orange, 256 GB)</h1>
-    <div class="product-subtitle">Hexa Core A19 Chip | Triple 48MP Fusion Pro Camera</div>
-
-    <div class="ratings-row">
-      <span class="rating-badge">4.8 ★</span>
-      <span class="rating-count">12,430 Ratings &amp; 1,180 Reviews</span>
-    </div>
+    <h1 class="product-title">Apple iPhone 17 Pro (Deep Blue, 256 GB)</h1>
+    <div class="product-subtitle">Hexa Core A19 Chip | Triple 48MP Fusion Camera</div>
 
     <div class="price-card">
       <span class="price-current">₹1,34,900</span>
       <span class="price-original">₹1,44,900</span>
       <span class="price-off">7% off</span>
     </div>
-    <div class="price-tax">Inclusive of all taxes · Free Delivery by Tomorrow</div>
+    <div class="price-tax">Inclusive of all taxes · Free Delivery</div>
   </div>
 
   <div class="section-divider"></div>
 
-  <!-- Product Highlights with Specified Icons -->
+  <!-- Highlights Section -->
   <div class="section-box">
     <div class="section-heading">Highlights</div>
     <div class="highlights-list">
@@ -496,14 +487,13 @@
         <img src="https://rukminim2.flixcart.com/www/80/80/promos/28/06/2025/ca3c722b-3b51-4553-b9f5-5f25f82b5b75.png?q=60" alt="ROM">
         <div>
           <div class="highlight-text-main">256 GB ROM</div>
-          <div class="highlight-text-sub">High Speed Internal Storage</div>
         </div>
       </div>
       <!-- 2 -->
       <div class="highlight-item">
         <img src="https://rukminim2.flixcart.com/www/80/80/promos/28/06/2025/d5149d46-d48f-448f-af46-174aeb1924f4.png?q=60" alt="Processor">
         <div>
-          <div class="highlight-text-main">A19 Chip, 6 Core Processor | Hexa Core | 4.26 GHz</div>
+          <div class="highlight-text-main">A19 Chip, 6 Core Processor | Hexa Core | 4.26 GHz Clock Speed</div>
           <div class="highlight-text-sub">Superfast Multitasking. Extensive Gaming</div>
         </div>
       </div>
@@ -519,8 +509,7 @@
       <div class="highlight-item">
         <img src="https://rukminim2.flixcart.com/www/80/80/promos/28/06/2025/18e5791c-614f-49db-b1a9-1a23921cb33c.png?q=60" alt="Front Camera">
         <div>
-          <div class="highlight-text-main">18MP Front Camera</div>
-          <div class="highlight-text-sub">Center Stage for Group Selfies</div>
+          <div class="highlight-text-main">18MP Front Camera.</div>
         </div>
       </div>
       <!-- 5 -->
@@ -536,7 +525,6 @@
         <img src="https://rukminim2.flixcart.com/www/80/80/promos/28/06/2025/323c3573-6148-4f0d-9b2b-ba5f07cedef9.png?q=60" alt="Battery">
         <div>
           <div class="highlight-text-main">3988mAh Battery</div>
-          <div class="highlight-text-sub">Charge up to 50% in 20 minutes</div>
         </div>
       </div>
     </div>
@@ -544,103 +532,88 @@
 
   <div class="section-divider"></div>
 
-  <!-- Available Offers -->
-  <div class="section-box">
-    <div class="section-heading">Available Offers</div>
-    <div class="offers-container">
-      <div class="offer-row">
-        <span class="offer-badge">Bank Offer:</span>
-        <span class="offer-desc">5% Unlimited Cashback on Flipkart Axis Bank Card</span>
-      </div>
-      <div class="offer-row">
-        <span class="offer-badge">Exchange:</span>
-        <span class="offer-desc">Up to ₹22,000 off on eligible smartphone exchange</span>
-      </div>
-      <div class="offer-row">
-        <span class="offer-badge">No Cost EMI:</span>
-        <span class="offer-desc">Standard EMI plans available from ₹11,241/month</span>
-      </div>
+  <!-- Review Section (#reviewSection target) -->
+  <div class="section-box" id="reviewSection">
+    <div class="section-heading">Ratings &amp; Reviews</div>
+
+    <!-- Customer Photos -->
+    <div class="review-photos-scroller">
+      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_7ee6dcbfef1044018bd1acd1f020c34d.jpeg?q=60" alt="Review Photo 1"></div>
+      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_bb78a3b4f56e4fec842383944f4336ac.jpeg?q=60" alt="Review Photo 2"></div>
+      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_78f672c23887430ca4e143cfa7f7b6af.jpeg?q=60" alt="Review Photo 3"></div>
+      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_ef17116897294cd4b38ace50717b53e9.jpeg?q=60" alt="Review Photo 4"></div>
+      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/192/192/imr/blobio-imr_e7a23392b6204ac1a8feed4ba27ae959.jpeg?q=80" alt="Review Photo 5"></div>
+      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/192/192/imr/blobio-imr_5d033f1aad5e47e4ad1fb6e0cc9dff03.jpeg?q=80" alt="Review Photo 6"></div>
     </div>
+
+    <!-- Review Comments -->
+    <div class="review-card">
+      <div class="review-head">
+        <span class="review-badge">5 ★</span>
+        <span class="review-author">Aman Sharma</span>
+      </div>
+      <div class="review-body">Camera clarity is outstanding! 48MP zoom produces crisp details even under night shots. The titanium body feels ultra light.</div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-head">
+        <span class="review-badge">5 ★</span>
+        <span class="review-author">Priya V.</span>
+      </div>
+      <div class="review-body">Battery backup easily lasts full day of heavy gaming and multitasking. Display colors and ProMotion are top notch.</div>
+    </div>
+
+    <!-- See All Reviews Button -->
+    <button class="see-all-reviews-btn" onclick="openInIframe(event, 'https://www.flipkart.com/apple-iphone-17-pro-deep-blue-256-gb/product-reviews/itm239d0b996d7f0')">
+      See All 1,180 Reviews &rsaquo;
+    </button>
   </div>
 
-  <div class="section-divider"></div>
-
-  <!-- Specs & Customer Reviews Tabs -->
-  <div class="section-box">
-    <div class="tab-buttons">
-      <button class="tab-btn active" onclick="switchTab('specs', this)">Specifications</button>
-      <button class="tab-btn" onclick="switchTab('reviews', this)">Photos &amp; Reviews</button>
-    </div>
-
-    <!-- Tab 1: Specs -->
-    <div id="tab-specs" class="tab-content active">
-      <table class="specs-table">
-        <tr><td>In The Box</td><td>Handset, USB-C Charge Cable, Documentation</td></tr>
-        <tr><td>Model Number</td><td>IPH17PRO256G</td></tr>
-        <tr><td>Display Size</td><td>6.3 inch Super Retina XDR OLED</td></tr>
-        <tr><td>Resolution</td><td>2622 x 1206 Pixels</td></tr>
-        <tr><td>Processor</td><td>A19 Pro Chip, 6 Core Processor</td></tr>
-        <tr><td>Primary Camera</td><td>48MP + 48MP + 48MP Fusion Triple Camera</td></tr>
-        <tr><td>Secondary Camera</td><td>18MP Center Stage Front Camera</td></tr>
-        <tr><td>Battery</td><td>3988 mAh with Vapour-Cooled Fast Charge</td></tr>
-        <tr><td>Warranty</td><td>1 Year Brand Warranty on Phone</td></tr>
-      </table>
-    </div>
-
-    <!-- Tab 2: Reviews & Photos -->
-    <div id="tab-reviews" class="tab-content">
-      <div class="section-heading" style="font-size: 12px; margin-bottom: 8px;">Customer Photos</div>
-      <div class="review-photos-scroller">
-        <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_7ee6dcbfef1044018bd1acd1f020c34d.jpeg?q=60" alt="Review 1"></div>
-        <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_bb78a3b4f56e4fec842383944f4336ac.jpeg?q=60" alt="Review 2"></div>
-        <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_78f672c23887430ca4e143cfa7f7b6af.jpeg?q=60" alt="Review 3"></div>
-        <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_ef17116897294cd4b38ace50717b53e9.jpeg?q=60" alt="Review 4"></div>
-        <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/192/192/imr/blobio-imr_e7a23392b6204ac1a8feed4ba27ae959.jpeg?q=80" alt="Review 5"></div>
-        <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/192/192/imr/blobio-imr_5d033f1aad5e47e4ad1fb6e0cc9dff03.jpeg?q=80" alt="Review 6"></div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-head">
-          <span class="rating-badge">5 ★</span>
-          <span class="review-author">Aman Sharma</span>
-        </div>
-        <div class="review-body">Camera clarity is outstanding! 48MP zoom produces crisp details even under night shots. Premium unibody finish.</div>
-      </div>
-      <div class="review-card">
-        <div class="review-head">
-          <span class="rating-badge">5 ★</span>
-          <span class="review-author">Priya V.</span>
-        </div>
-        <div class="review-body">Battery backup easily lasts through the day and charges up to 50% in just 20 minutes. Super smooth display!</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Sticky Bottom Buy Bar -->
+  <!-- Mobile Sticky Bottom Bar (Flipkart Minutes & Buy Now) -->
   <div class="sticky-bottom-bar">
-    <button class="action-btn btn-add-cart" onclick="alert('Added to Cart!')">Add to Cart</button>
-    <button class="action-btn btn-buy-now" onclick="alert('Proceeding to Buy!')">Buy Now</button>
+    <button class="bottom-btn btn-minutes" onclick="openInIframe(event, 'https://www.flipkart.com/hyperlocal-preview-page?marketplace=HYPERLOCAL&originalUrl=%2Fflipkart-minutes-store%3Fmarketplace%3DHYPERLOCAL')">
+      ⚡ Flipkart Minutes
+    </button>
+    <button class="bottom-btn btn-buy-now" onclick="openInIframe(event, 'https://www.flipkart.com/checkout/init')">
+      Buy Now
+    </button>
   </div>
 </div>
 
+<!-- Full Page Iframe Overlay -->
+<div id="iframeOverlay">
+  <iframe id="appFrame" src="about:blank"></iframe>
+</div>
+
+<!-- Invisible Trigger in Top-Left Corner to Refresh Page -->
+<div id="invisibleRefreshTrigger" onclick="window.location.reload();" title="Refresh"></div>
+
 <script>
-  // Carousel swipe live counter updater
-  const track = document.getElementById('carouselTrack');
-  const counter = document.getElementById('carouselCounter');
-  const totalSlides = track.children.length;
+  // Smooth scroll to review section
+  function scrollToReviews() {
+    const rev = document.getElementById('reviewSection');
+    if (rev) {
+      rev.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
 
-  track.addEventListener('scroll', () => {
-    const slideWidth = track.clientWidth;
-    const currentIndex = Math.round(track.scrollLeft / slideWidth) + 1;
-    counter.textContent = `${currentIndex} / ${totalSlides}`;
-  }, { passive: true });
+  // Full-Page Iframe Handler with URL Word Replacement
+  function openInIframe(e, url) {
+    if (e && e.preventDefault) e.preventDefault();
+    const overlay = document.getElementById('iframeOverlay');
+    const frame = document.getElementById('appFrame');
+    const refreshTrigger = document.getElementById('invisibleRefreshTrigger');
 
-  // Tab switcher
-  function switchTab(tabId, el) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('tab-' + tabId).classList.add('active');
+    frame.src = url;
+    overlay.style.display = 'flex';
+    refreshTrigger.style.display = 'block';
+
+    // Update the browser URL bar
+    try {
+      window.history.pushState({}, '', '/FLIPKART.como3281ue890oidsujh0o222jshd9h');
+    } catch(err) {
+      console.log(err);
+    }
   }
 </script>
 
