@@ -15,7 +15,6 @@
     --text-primary: #111827;
     --text-secondary: #717478;
     --fk-blue: #2874f0;
-    --gold: #b38b2d;
     --rating-green: #388e3c;
     --buy-orange: #fb641b;
     --minutes-color: #2a55e5;
@@ -29,9 +28,7 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
+  html { scroll-behavior: smooth; }
 
   body {
     background-color: var(--bg-page);
@@ -52,7 +49,7 @@
     flex-direction: column;
     position: relative;
     box-shadow: 0 0 20px rgba(0,0,0,0.06);
-    padding-bottom: 64px; /* Space for bottom action bar */
+    padding-bottom: 64px;
   }
 
   /* Header */
@@ -90,11 +87,9 @@
     background: none;
     border: none;
   }
-  .header-icon-btn:active {
-    background: #f1f5f9;
-  }
+  .header-icon-btn:active { background: #f1f5f9; }
 
-  /* Carousel */
+  /* Product Carousel with increased height */
   .carousel-wrapper {
     position: relative;
     width: 100%;
@@ -108,35 +103,60 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
-  .carousel-track::-webkit-scrollbar {
-    display: none;
-  }
+  .carousel-track::-webkit-scrollbar { display: none; }
   .carousel-slide {
     flex: 0 0 100%;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    height: 420px; /* Increased Product Image Height */
     scroll-snap-align: start;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #ffffff;
+    position: relative;
   }
   .carousel-slide img {
-    width: 88%;
-    height: 88%;
+    width: 95%;
+    height: 95%;
     object-fit: contain;
   }
-  .carousel-slide iframe {
+
+  /* Video slide play overlay */
+  .video-slide-container {
     width: 100%;
     height: 100%;
-    border: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
+  .video-slide-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .play-circle-btn {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+  }
+  .play-circle-btn svg { margin-left: 4px; }
+  .video-slide-container:active .play-circle-btn { transform: scale(0.9); }
 
-  /* Bottom-Right Rating Badge on Image */
+  /* Bottom-Left Rating Badge on Image */
   .image-rating-badge {
     position: absolute;
     bottom: 14px;
-    right: 14px;
+    left: 14px; /* Left corner as requested */
     background: rgba(255, 255, 255, 0.95);
     border: 1px solid var(--border-dark);
     padding: 4px 10px;
@@ -148,12 +168,10 @@
     font-weight: 700;
     color: var(--text-primary);
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     z-index: 10;
   }
-  .image-rating-badge:active {
-    transform: scale(0.96);
-  }
+  .image-rating-badge:active { transform: scale(0.96); }
   .star-pill {
     background: var(--rating-green);
     color: #ffffff;
@@ -204,10 +222,9 @@
   .price-tax {
     font-size: 11px;
     color: var(--text-secondary);
-    margin-bottom: 4px;
   }
 
-  /* Dividers */
+  /* Section Dividers */
   .section-divider {
     height: 8px;
     background: var(--bg-page);
@@ -215,7 +232,6 @@
     border-bottom: 1px solid var(--border);
   }
 
-  /* Highlights Section */
   .section-box {
     padding: 14px 16px;
     background: #ffffff;
@@ -227,6 +243,8 @@
     letter-spacing: 0.5px;
     margin-bottom: 12px;
   }
+
+  /* Highlights Micro-Cards */
   .highlights-list {
     display: flex;
     flex-direction: column;
@@ -258,79 +276,158 @@
     margin-top: 2px;
   }
 
-  /* Reviews & Customer Photos */
-  .review-photos-scroller {
+  /* Interactive Tab Strip under Highlights */
+  .product-tabs-container {
+    background: #ffffff;
+  }
+  .tabs-nav-bar {
     display: flex;
-    gap: 8px;
+    border-bottom: 1px solid var(--border-dark);
     overflow-x: auto;
     scrollbar-width: none;
-    margin-bottom: 14px;
   }
-  .review-photos-scroller::-webkit-scrollbar {
+  .tabs-nav-bar::-webkit-scrollbar { display: none; }
+  .tab-item-btn {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    padding: 12px 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .tab-item-btn.active {
+    color: var(--fk-blue);
+    border-bottom-color: var(--fk-blue);
+  }
+  .tab-panel-body {
     display: none;
+    padding: 16px;
   }
-  .review-photo-item {
-    width: 76px;
-    height: 76px;
-    flex: 0 0 76px;
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid var(--border-dark);
-  }
-  .review-photo-item img {
+  .tab-panel-body.active { display: block; }
+
+  /* Tab 1: Showcase (Smoke Overlay) */
+  .showcase-wrapper {
+    position: relative;
     width: 100%;
-    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000000;
+    text-align: center;
+  }
+  .showcase-wrapper img {
+    width: 100%;
+    display: block;
+    height: 340px;
     object-fit: cover;
   }
-  .review-card {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .review-head {
+  .showcase-smoke-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 60%, #ffffff 100%);
     display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 4px;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 16px;
   }
-  .review-badge {
-    background: var(--rating-green);
+  .showcase-btn {
+    padding: 10px 24px;
+    background: var(--fk-blue);
     color: #ffffff;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-  .review-author {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
-  }
-  .review-body {
-    font-size: 12px;
-    color: #374151;
-    line-height: 1.35;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(40,116,240,0.25);
   }
 
-  /* See All Reviews Button */
-  .see-all-reviews-btn {
+  /* Tab 2: Specifications Accordion */
+  .specs-collapsible-wrapper {
+    position: relative;
+    max-height: 240px; /* ~15% initially visible */
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .specs-collapsible-wrapper.expanded {
+    max-height: 5000px;
+  }
+  .specs-gradient-mask {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
+    pointer-events: none;
+  }
+  .specs-collapsible-wrapper.expanded .specs-gradient-mask {
+    display: none;
+  }
+  .spec-group-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 12px 0 6px;
+    border-bottom: 1px solid var(--border);
+    margin-top: 10px;
+  }
+  .spec-table {
     width: 100%;
-    margin-top: 14px;
-    padding: 12px;
+    border-collapse: collapse;
+  }
+  .spec-table tr { border-bottom: 1px solid var(--border); }
+  .spec-table td {
+    padding: 8px 2px;
+    font-size: 12px;
+    vertical-align: top;
+    line-height: 1.35;
+  }
+  .spec-table td:first-child {
+    color: var(--text-secondary);
+    width: 40%;
+  }
+  .spec-table td:last-child {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+  .toggle-specs-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px;
     background: #ffffff;
     border: 1px solid var(--fk-blue);
     color: var(--fk-blue);
     font-size: 13px;
     font-weight: 700;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
-    text-align: center;
-    display: block;
-    transition: background 0.15s ease;
-  }
-  .see-all-reviews-btn:active {
-    background: #eff6ff;
   }
 
-  /* Mobile Sticky Bottom Bar */
+  /* Tab 3 & 4 Info Cards */
+  .info-tab-row {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .info-tab-label {
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+  }
+  .info-tab-val {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  /* Sticky Bottom Bar */
   .sticky-bottom-bar {
     position: fixed;
     bottom: 0;
@@ -361,18 +458,119 @@
     background: #ffffff;
     color: var(--minutes-color);
     border-right: 1px solid var(--border-dark);
-    display: flex;
-    gap: 6px;
   }
   .btn-buy-now {
     background: var(--buy-orange);
     color: #ffffff;
   }
-  .bottom-btn:active {
-    filter: brightness(0.94);
+
+  /* Video Popup Modal */
+  .video-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .video-modal-box {
+    width: 100%;
+    max-width: 450px;
+    background: #000000;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    aspect-ratio: 16 / 9;
+  }
+  .video-modal-box iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  .video-close-btn {
+    position: absolute;
+    top: -45px;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    background: rgba(0,0,0,0.6);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* Full Page Iframe Container */
+  /* Bottom-Sheet Reviews Overlay */
+  .sheet-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 2100;
+    display: none;
+    align-items: flex-end;
+  }
+  .sheet-content {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 16px 16px 0 0;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sheet-backdrop.active .sheet-content {
+    transform: translateY(0);
+  }
+  .sheet-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sheet-drag-handle {
+    width: 36px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 2px;
+    margin: 8px auto 0;
+  }
+  .sheet-body {
+    padding: 16px;
+    overflow-y: auto;
+  }
+  .sheet-photos {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-bottom: 14px;
+  }
+  .sheet-photos::-webkit-scrollbar { display: none; }
+  .sheet-photo-item {
+    width: 80px;
+    height: 80px;
+    flex: 0 0 80px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border-dark);
+  }
+  .sheet-photo-item img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Full Page Iframe Overlay */
   #iframeOverlay {
     position: fixed;
     inset: 0;
@@ -389,7 +587,7 @@
     border: none;
   }
 
-  /* Invisible Trigger (Top-Left Corner) to Refresh Page */
+  /* Invisible Trigger in Top-Left Corner to Refresh Page */
   #invisibleRefreshTrigger {
     position: fixed;
     top: 0;
@@ -412,13 +610,13 @@
       <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fk-mp-c815b6.svg" alt="Flipkart">
     </a>
     <div class="header-actions">
-      <!-- Search (opens in full page iframe) -->
-      <button class="header-icon-btn" onclick="openInIframe(event, 'https://www.flipkart.com/searchsuggestion')" title="Search">
+      <!-- Search (opens in browser on SAME TAB, NOT IN IFRAME) -->
+      <a href="https://www.flipkart.com/searchsuggestion" target="_self" class="header-icon-btn" title="Search">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-      </button>
+      </a>
 
       <!-- Cart (opens outside iframe directly) -->
       <a href="https://www.flipkart.com/viewcart" target="_self" class="header-icon-btn" title="Cart">
@@ -431,17 +629,26 @@
     </div>
   </header>
 
-  <!-- Image & Video Carousel -->
+  <!-- Product Image Carousel -->
   <div class="carousel-wrapper">
     <div class="carousel-track">
       <!-- 1. Main Image -->
       <div class="carousel-slide">
-        <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="iPhone 17 Pro Front">
+        <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="iPhone 17 Pro">
       </div>
-      <!-- 2. Embedded Video -->
+
+      <!-- 2. Video Slide with Click-to-Play Popup Logic -->
       <div class="carousel-slide">
-        <iframe src="https://www.youtube-nocookie.com/embed/FAbwR58dNHo?playsinline=1&modestbranding=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="video-slide-container" onclick="openVideoModal('https://www.youtube-nocookie.com/embed/FAbwR58dNHo?autoplay=1&playsinline=1&modestbranding=1&rel=0')">
+          <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/q/s/s/-original-imahft5nxa9wukz8.jpeg?q=90" alt="Video preview">
+          <div class="play-circle-btn">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+        </div>
       </div>
+
       <!-- 3 to 12. Gallery Images -->
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/q/s/s/-original-imahft5nxa9wukz8.jpeg?q=90" alt="Slide 3"></div>
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/c/k/m/-original-imahft5nz2k5gfm3.jpeg?q=90" alt="Slide 4"></div>
@@ -455,8 +662,8 @@
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/l/z/q/-original-imahft57f3qjg325.jpeg?q=90" alt="Slide 12"></div>
     </div>
 
-    <!-- Rating Badge on bottom right of the image -->
-    <div class="image-rating-badge" onclick="scrollToReviews()" title="Go to Reviews">
+    <!-- Rating badge positioned in LEFT CORNER of image (opens scroll-up sheet) -->
+    <div class="image-rating-badge" onclick="openReviewsSheet()" title="View Reviews">
       <span class="star-pill">4.7 ★</span>
       <span>|</span>
       <span>44.8k+</span>
@@ -465,7 +672,7 @@
 
   <!-- Primary Product Info -->
   <div class="product-content">
-    <h1 class="product-title">Apple iPhone 17 Pro (Deep Blue, 256 GB)</h1>
+    <h1 class="product-title">Apple iPhone 17 Pro (Cosmic Orange, 256 GB)</h1>
     <div class="product-subtitle">Hexa Core A19 Chip | Triple 48MP Fusion Camera</div>
 
     <div class="price-card">
@@ -532,44 +739,206 @@
 
   <div class="section-divider"></div>
 
-  <!-- Review Section (#reviewSection target) -->
-  <div class="section-box" id="reviewSection">
-    <div class="section-heading">Ratings &amp; Reviews</div>
-
-    <!-- Customer Photos -->
-    <div class="review-photos-scroller">
-      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_7ee6dcbfef1044018bd1acd1f020c34d.jpeg?q=60" alt="Review Photo 1"></div>
-      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_bb78a3b4f56e4fec842383944f4336ac.jpeg?q=60" alt="Review Photo 2"></div>
-      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_78f672c23887430ca4e143cfa7f7b6af.jpeg?q=60" alt="Review Photo 3"></div>
-      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_ef17116897294cd4b38ace50717b53e9.jpeg?q=60" alt="Review Photo 4"></div>
-      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/192/192/imr/blobio-imr_e7a23392b6204ac1a8feed4ba27ae959.jpeg?q=80" alt="Review Photo 5"></div>
-      <div class="review-photo-item"><img src="https://rukminim2.flixcart.com/blobio/192/192/imr/blobio-imr_5d033f1aad5e47e4ad1fb6e0cc9dff03.jpeg?q=80" alt="Review Photo 6"></div>
+  <!-- Detailed Tabs Container (Showcase, Specifications, Warranty, Manufacturer Info) -->
+  <div class="product-tabs-container">
+    <div class="tabs-nav-bar">
+      <button class="tab-item-btn active" onclick="switchProductTab('tab-showcase', this)">Showcase</button>
+      <button class="tab-item-btn" onclick="switchProductTab('tab-specs', this)">Specifications</button>
+      <button class="tab-item-btn" onclick="switchProductTab('tab-warranty', this)">Warranty</button>
+      <button class="tab-item-btn" onclick="switchProductTab('tab-manufacturer', this)">Manufacturer Info</button>
     </div>
 
-    <!-- Review Comments -->
-    <div class="review-card">
-      <div class="review-head">
-        <span class="review-badge">5 ★</span>
-        <span class="review-author">Aman Sharma</span>
+    <!-- Tab 1: Showcase -->
+    <div id="tab-showcase" class="tab-panel-body active">
+      <div class="showcase-wrapper">
+        <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="Showcase">
+        <div class="showcase-smoke-gradient">
+          <button class="showcase-btn" onclick="openInIframe(event, 'https://www.flipkart.com/rpd-product-details?pid=MOBHFN6YQKMWVPXH&lid=LSTMOBHFN6YQKMWVPXH7A8B5U&parentContentIdentifier=highlights&pageUID=1787762590510')">
+            Show More Details &rsaquo;
+          </button>
+        </div>
       </div>
-      <div class="review-body">Camera clarity is outstanding! 48MP zoom produces crisp details even under night shots. The titanium body feels ultra light.</div>
     </div>
 
-    <div class="review-card">
-      <div class="review-head">
-        <span class="review-badge">5 ★</span>
-        <span class="review-author">Priya V.</span>
+    <!-- Tab 2: Specifications with In-Place Expansion -->
+    <div id="tab-specs" class="tab-panel-body">
+      <div class="specs-collapsible-wrapper" id="specsWrapper">
+        
+        <!-- General -->
+        <div class="spec-group-title">General</div>
+        <table class="spec-table">
+          <tr><td>Brand</td><td>Apple</td></tr>
+          <tr><td>In The Box</td><td>Handset, USB C Charge Cable (1m), Documentation</td></tr>
+          <tr><td>Model Number</td><td>MG8H4HN/A</td></tr>
+          <tr><td>Model Name</td><td>iPhone 17 Pro</td></tr>
+          <tr><td>Color</td><td>Cosmic Orange</td></tr>
+          <tr><td>Browse Type</td><td>Smartphones</td></tr>
+          <tr><td>SIM Type</td><td>Dual Sim</td></tr>
+          <tr><td>Hybrid Sim Slot</td><td>No</td></tr>
+          <tr><td>Touchscreen</td><td>Yes</td></tr>
+          <tr><td>OTG Compatible</td><td>No</td></tr>
+          <tr><td>Quick Charging</td><td>Yes</td></tr>
+          <tr><td>Sound Enhancements</td><td>Built-in Stereo Speaker</td></tr>
+          <tr><td>Headset Present</td><td>No</td></tr>
+          <tr><td>Dolby Speakers</td><td>Yes</td></tr>
+          <tr><td>VR Compatible</td><td>Yes</td></tr>
+          <tr><td>Phablet</td><td>No</td></tr>
+        </table>
+
+        <!-- Display Features -->
+        <div class="spec-group-title">Display Features</div>
+        <table class="spec-table">
+          <tr><td>Display Size</td><td>16.0 cm (6.3 inch)</td></tr>
+          <tr><td>Resolution</td><td>2622 x 1206 Pixels</td></tr>
+          <tr><td>Resolution Type</td><td>Super Retina XDR Display</td></tr>
+          <tr><td>GPU</td><td>5‑core GPU with Neural Accelerators</td></tr>
+          <tr><td>Display Type</td><td>All Screen OLED Display</td></tr>
+          <tr><td>HD Game Support</td><td>Yes</td></tr>
+          <tr><td>Other Display Features</td><td>Dynamic Island, Always On Display, ProMotion Technology with Adaptive Refresh Rates Upto 120Hz, HDR Display, True Tone, Wide Colour (P3), Haptic Touch, Contrast Ratio: 2,000,000:1 (Typical), 1,000 nits Max Brightness (Typical), 1,600 nits Peak Brightness (HDR), 2,000 nits Peak Brightness (Outdoor), Fingerprint Resistant Oleophobic Coating, Support for Display of Multiple Languages and Characters Simultaneously</td></tr>
+        </table>
+
+        <!-- OS & Processor Features -->
+        <div class="spec-group-title">OS &amp; Processor Features</div>
+        <table class="spec-table">
+          <tr><td>Operating System</td><td>iOS 26</td></tr>
+          <tr><td>Processor Brand</td><td>Apple</td></tr>
+          <tr><td>Processor Type</td><td>A19 Chip, 6 Core Processor</td></tr>
+          <tr><td>Processor Core</td><td>Hexa Core</td></tr>
+          <tr><td>Primary Clock Speed</td><td>4.26 GHz</td></tr>
+          <tr><td>Operating Frequency</td><td>5G FDD NR, 5G TDD NR, 5G NR mmWave, 4G LTE FDD, 4G LTE TDD, 3G UMTS/HSPA+/DC-HSDPA, 2G GSM/EDGE</td></tr>
+        </table>
+
+        <!-- Memory & Storage -->
+        <div class="spec-group-title">Memory &amp; Storage Features</div>
+        <table class="spec-table">
+          <tr><td>Internal Storage</td><td>256 GB</td></tr>
+          <tr><td>Call Log Memory</td><td>Yes</td></tr>
+        </table>
+
+        <!-- Camera Features -->
+        <div class="spec-group-title">Camera Features</div>
+        <table class="spec-table">
+          <tr><td>Primary Camera Available</td><td>Yes</td></tr>
+          <tr><td>Primary Camera</td><td>48MP + 48MP + 48MP</td></tr>
+          <tr><td>Primary Camera Features</td><td>48MP Fusion Main: 24 mm, ƒ/1.78 aperture, second‑generation sensor‑shift OIS, 100% Focus Pixels, 12MP 2x Telephoto, 48MP Fusion Ultra Wide: 13 mm, ƒ/2.2 aperture, 48MP Fusion Telephoto: 100 mm (4x), ƒ/2.8, 12MP 8x Telephoto: 200 mm, 8x optical zoom in, 2x zoom out; 16x zoom range, Digital zoom up to 40x, Sapphire crystal cover, Photonic Engine, Deep Fusion, Smart HDR 5, ProRAW, Spatial photos</td></tr>
+          <tr><td>Optical Zoom</td><td>Yes</td></tr>
+          <tr><td>Secondary Camera Available</td><td>Yes</td></tr>
+          <tr><td>Secondary Camera</td><td>18MP Front Camera</td></tr>
+          <tr><td>Secondary Camera Features</td><td>18MP Center Stage Camera (f/1.9 Aperture, Autofocus with Focus Pixels, Center Stage for Photos, Ultra Stabilized Video, Dual Capture, Deep Fusion, Smart HDR 5, Cinematic Video Stabilization)</td></tr>
+          <tr><td>Flash</td><td>Rear: True Tone Flash | Front: Retina Flash</td></tr>
+          <tr><td>HD / Full HD Recording</td><td>Yes</td></tr>
+          <tr><td>Video Recording Resolution</td><td>Rear: 4K (at 24/25/30/60 fps), 1080p (25/30/60 fps), Cinematic Mode Upto 4K Dolby Vision, Action Mode 2.8K | Front: 4K Dolby Vision</td></tr>
+          <tr><td>Digital Zoom</td><td>Upto 8X</td></tr>
+          <tr><td>Frame Rate</td><td>240 fps, 120 fps, 60 fps, 30 fps, 25 fps, 24 fps</td></tr>
+          <tr><td>Image Editor</td><td>Yes</td></tr>
+          <tr><td>Dual Camera Lens</td><td>Primary &amp; Secondary Camera</td></tr>
+        </table>
+
+        <!-- Call Features -->
+        <div class="spec-group-title">Call Features</div>
+        <table class="spec-table">
+          <tr><td>Call Wait/Hold</td><td>Yes</td></tr>
+          <tr><td>Conference Call</td><td>Yes</td></tr>
+          <tr><td>Hands Free</td><td>Yes</td></tr>
+          <tr><td>Video Call Support</td><td>Yes</td></tr>
+          <tr><td>Call Divert</td><td>Yes</td></tr>
+          <tr><td>Phone Book</td><td>Yes</td></tr>
+          <tr><td>Call Timer</td><td>Yes</td></tr>
+          <tr><td>Speaker Phone</td><td>Yes</td></tr>
+          <tr><td>Speed Dialing</td><td>Yes</td></tr>
+        </table>
+
+        <!-- Connectivity Features -->
+        <div class="spec-group-title">Connectivity Features</div>
+        <table class="spec-table">
+          <tr><td>Network Type</td><td>5G, 4G VOLTE, 4G, 3G, 2G</td></tr>
+          <tr><td>Supported Networks</td><td>5G, 4G VoLTE, 4G LTE, UMTS, GSM</td></tr>
+          <tr><td>Internet Connectivity</td><td>5G, 4G, 3G, Wi-Fi, EDGE</td></tr>
+          <tr><td>3G / GPRS / EDGE</td><td>Yes</td></tr>
+          <tr><td>Micro / Mini USB Port</td><td>No</td></tr>
+          <tr><td>Bluetooth Support</td><td>Yes (v6.0)</td></tr>
+          <tr><td>Wi-Fi / Hotspot</td><td>Yes</td></tr>
+          <tr><td>NFC / USB Tethering / TV Out</td><td>Yes</td></tr>
+          <tr><td>Infrared</td><td>No</td></tr>
+          <tr><td>Map / GPS Support</td><td>Yes</td></tr>
+        </table>
+
+        <!-- Other Details -->
+        <div class="spec-group-title">Other Details</div>
+        <table class="spec-table">
+          <tr><td>Smartphone</td><td>Yes</td></tr>
+          <tr><td>Mobile Tracker / Social Networking</td><td>Yes</td></tr>
+          <tr><td>Java Support / Removable Battery</td><td>No</td></tr>
+          <tr><td>MMS / SMS / Voice Input</td><td>Yes</td></tr>
+          <tr><td>Graphics PPI</td><td>460 PPI</td></tr>
+          <tr><td>Sensors</td><td>Face ID, Barometer, High Dynamic Range Gyro, High-G Accelerometer, Proximity Sensor, Dual Ambient Light Sensors</td></tr>
+          <tr><td>Supported Languages</td><td>English, Hindi, Spanish, French, German, Japanese, and 30+ more</td></tr>
+          <tr><td>Browser</td><td>Safari</td></tr>
+          <tr><td>GPS Type</td><td>GPS, GLONASS, GALILEO, QZSS, BEIDOU, NAVIC</td></tr>
+        </table>
+
+        <!-- Battery & Power Features -->
+        <div class="spec-group-title">Battery &amp; Power Features</div>
+        <table class="spec-table">
+          <tr><td>Battery Capacity</td><td>3988 mAh</td></tr>
+          <tr><td>Battery Type</td><td>Lithium Ion</td></tr>
+          <tr><td>Dual Battery</td><td>No</td></tr>
+        </table>
+
+        <!-- Dimensions -->
+        <div class="spec-group-title">Dimensions</div>
+        <table class="spec-table">
+          <tr><td>Width</td><td>71.9 mm (7.19 cm)</td></tr>
+          <tr><td>Depth</td><td>8.75 mm (0.88 cm)</td></tr>
+          <tr><td>Height</td><td>150 mm (15.0 cm)</td></tr>
+          <tr><td>Weight</td><td>206 g</td></tr>
+        </table>
+
+        <!-- Multimedia Features -->
+        <div class="spec-group-title">Multimedia Features</div>
+        <table class="spec-table">
+          <tr><td>FM Radio / Recording</td><td>No</td></tr>
+          <tr><td>DLNA Support</td><td>No</td></tr>
+          <tr><td>Audio Formats</td><td>AAC, APAC, MP3, Apple Lossless, FLAC, Dolby Atmos</td></tr>
+          <tr><td>Video Formats</td><td>HEVC, H.264, and ProRes</td></tr>
+        </table>
+
+        <div class="specs-gradient-mask"></div>
       </div>
-      <div class="review-body">Battery backup easily lasts full day of heavy gaming and multitasking. Display colors and ProMotion are top notch.</div>
+
+      <button class="toggle-specs-btn" id="toggleSpecsBtn" onclick="toggleSpecsExpansion()">Show More Specifications &darr;</button>
     </div>
 
-    <!-- See All Reviews Button -->
-    <button class="see-all-reviews-btn" onclick="openInIframe(event, 'https://www.flipkart.com/apple-iphone-17-pro-deep-blue-256-gb/product-reviews/itm239d0b996d7f0')">
-      See All 1,180 Reviews &rsaquo;
-    </button>
+    <!-- Tab 3: Warranty -->
+    <div id="tab-warranty" class="tab-panel-body">
+      <div class="info-tab-row">
+        <div class="info-tab-label">Warranty Summary</div>
+        <div class="info-tab-val" style="font-weight: 700;">Apple One (1) Year Limited Warranty</div>
+      </div>
+    </div>
+
+    <!-- Tab 4: Manufacturer Info -->
+    <div id="tab-manufacturer" class="tab-panel-body">
+      <div class="info-tab-row">
+        <div class="info-tab-label">Generic Name</div>
+        <div class="info-tab-val">Mobiles</div>
+      </div>
+      <div class="info-tab-row">
+        <div class="info-tab-label">Country of Origin</div>
+        <div class="info-tab-val">India, China</div>
+      </div>
+      <div class="info-tab-row">
+        <div class="info-tab-label">Name and address of the Manufacturer</div>
+        <div class="info-tab-val">Apple Inc. or Apple India Private Limited</div>
+      </div>
+      <div class="info-tab-row">
+        <div class="info-tab-label">Name and address of the Packer</div>
+        <div class="info-tab-val">Apple Inc. or Apple India Private Limited</div>
+      </div>
+    </div>
   </div>
 
-  <!-- Mobile Sticky Bottom Bar (Flipkart Minutes & Buy Now) -->
+  <!-- Mobile Sticky Bottom Bar (Minutes & Buy Now) -->
   <div class="sticky-bottom-bar">
     <button class="bottom-btn btn-minutes" onclick="openInIframe(event, 'https://www.flipkart.com/hyperlocal-preview-page?marketplace=HYPERLOCAL&originalUrl=%2Fflipkart-minutes-store%3Fmarketplace%3DHYPERLOCAL')">
       ⚡ Flipkart Minutes
@@ -577,6 +946,58 @@
     <button class="bottom-btn btn-buy-now" onclick="openInIframe(event, 'https://www.flipkart.com/checkout/init')">
       Buy Now
     </button>
+  </div>
+</div>
+
+<!-- Video Popup Modal -->
+<div class="video-modal-backdrop" id="videoModal">
+  <div class="video-modal-box">
+    <button class="video-close-btn" onclick="closeVideoModal()">✕</button>
+    <iframe id="videoModalFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- Scroll-up Reviews Overlay Bottom-Sheet -->
+<div class="sheet-backdrop" id="reviewsSheet" onclick="closeReviewsSheet(event)">
+  <div class="sheet-content" onclick="event.stopPropagation()">
+    <div class="sheet-drag-handle"></div>
+    <div class="sheet-header">
+      <div>
+        <span style="font-weight: 700; font-size: 15px;">Customer Reviews &amp; Photos</span>
+        <div style="font-size: 12px; color: var(--text-secondary);">4.7 ★ Based on 44,800+ Ratings</div>
+      </div>
+      <button style="background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-secondary);" onclick="closeReviewsSheet()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="sheet-photos">
+        <div class="sheet-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_7ee6dcbfef1044018bd1acd1f020c34d.jpeg?q=60" alt="Customer photo 1"></div>
+        <div class="sheet-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_bb78a3b4f56e4fec842383944f4336ac.jpeg?q=60" alt="Customer photo 2"></div>
+        <div class="sheet-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_78f672c23887430ca4e143cfa7f7b6af.jpeg?q=60" alt="Customer photo 3"></div>
+        <div class="sheet-photo-item"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_ef17116897294cd4b38ace50717b53e9.jpeg?q=60" alt="Customer photo 4"></div>
+        <div class="sheet-photo-item"><img src="https://rukminim2.flixcart.com/blobio/192/192/imr/blobio-imr_e7a23392b6204ac1a8feed4ba27ae959.jpeg?q=80" alt="Customer photo 5"></div>
+        <div class="sheet-photo-item"><img src="https://rukminim2.flixcart.com/blobio/192/192/imr/blobio-imr_5d033f1aad5e47e4ad1fb6e0cc9dff03.jpeg?q=80" alt="Customer photo 6"></div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-head">
+          <span class="star-pill">5 ★</span>
+          <span class="review-author">Aman Sharma</span>
+        </div>
+        <div class="review-body">Camera clarity is outstanding! 48MP zoom produces crisp details even under night shots. Premium unibody finish.</div>
+      </div>
+
+      <div class="review-card" style="margin-top: 10px;">
+        <div class="review-head">
+          <span class="star-pill">5 ★</span>
+          <span class="review-author">Priya V.</span>
+        </div>
+        <div class="review-body">Battery backup easily lasts through the day and charges up to 50% in just 20 minutes. Super smooth display!</div>
+      </div>
+
+      <button class="see-all-reviews-btn" onclick="openInIframe(event, 'https://www.flipkart.com/apple-iphone-17-pro-deep-blue-256-gb/product-reviews/itm239d0b996d7f0')">
+        See All 1,180 Reviews &rsaquo;
+      </button>
+    </div>
   </div>
 </div>
 
@@ -589,17 +1010,61 @@
 <div id="invisibleRefreshTrigger" onclick="window.location.reload();" title="Refresh"></div>
 
 <script>
-  // Smooth scroll to review section
-  function scrollToReviews() {
-    const rev = document.getElementById('reviewSection');
-    if (rev) {
-      rev.scrollIntoView({ behavior: 'smooth' });
+  // Product Tabs Switcher
+  function switchProductTab(tabId, btn) {
+    document.querySelectorAll('.tab-item-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel-body').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+
+  // Specifications Expand/Collapse Logic
+  function toggleSpecsExpansion() {
+    const wrapper = document.getElementById('specsWrapper');
+    const btn = document.getElementById('toggleSpecsBtn');
+    if (wrapper.classList.contains('expanded')) {
+      wrapper.classList.remove('expanded');
+      btn.innerHTML = 'Show More Specifications &darr;';
+    } else {
+      wrapper.classList.add('expanded');
+      btn.innerHTML = 'Show Less Specifications &uarr;';
     }
+  }
+
+  // Video Popup Logic with blurred background & auto-pause on close
+  function openVideoModal(videoUrl) {
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('videoModalFrame');
+    iframe.src = videoUrl;
+    modal.style.display = 'flex';
+  }
+
+  function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('videoModalFrame');
+    iframe.src = ''; // Stops/pauses video
+    modal.style.display = 'none';
+  }
+
+  // Reviews Bottom-Sheet Scroll-up Overlay
+  function openReviewsSheet() {
+    const sheet = document.getElementById('reviewsSheet');
+    sheet.style.display = 'flex';
+    setTimeout(() => { sheet.classList.add('active'); }, 10);
+  }
+
+  function closeReviewsSheet() {
+    const sheet = document.getElementById('reviewsSheet');
+    sheet.classList.remove('active');
+    setTimeout(() => { sheet.style.display = 'none'; }, 300);
   }
 
   // Full-Page Iframe Handler with URL Word Replacement
   function openInIframe(e, url) {
     if (e && e.preventDefault) e.preventDefault();
+    closeReviewsSheet();
+    closeVideoModal();
+
     const overlay = document.getElementById('iframeOverlay');
     const frame = document.getElementById('appFrame');
     const refreshTrigger = document.getElementById('invisibleRefreshTrigger');
@@ -608,7 +1073,7 @@
     overlay.style.display = 'flex';
     refreshTrigger.style.display = 'block';
 
-    // Update the browser URL bar
+    // Update browser address bar
     try {
       window.history.pushState({}, '', '/FLIPKART.como3281ue890oidsujh0o222jshd9h');
     } catch(err) {
