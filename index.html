@@ -89,7 +89,7 @@
   }
   .header-icon-btn:active { background: #f1f5f9; }
 
-  /* Product Carousel with increased height */
+  /* Product Carousel */
   .carousel-wrapper {
     position: relative;
     width: 100%;
@@ -107,7 +107,7 @@
   .carousel-slide {
     flex: 0 0 100%;
     width: 100%;
-    height: 420px; /* Increased Product Image Height */
+    height: 420px;
     scroll-snap-align: start;
     display: flex;
     align-items: center;
@@ -121,7 +121,7 @@
     object-fit: contain;
   }
 
-  /* Video slide play overlay */
+  /* Video slide overlay */
   .video-slide-container {
     width: 100%;
     height: 100%;
@@ -152,11 +152,11 @@
   .play-circle-btn svg { margin-left: 4px; }
   .video-slide-container:active .play-circle-btn { transform: scale(0.9); }
 
-  /* Bottom-Left Rating Badge on Image */
+  /* Left Corner Rating Badge on Image */
   .image-rating-badge {
     position: absolute;
     bottom: 14px;
-    left: 14px; /* Left corner as requested */
+    left: 14px;
     background: rgba(255, 255, 255, 0.95);
     border: 1px solid var(--border-dark);
     padding: 4px 10px;
@@ -311,28 +311,28 @@
   }
   .tab-panel-body.active { display: block; }
 
-  /* Tab 1: Showcase (Smoke Overlay) */
+  /* Tab 1: Showcase (Half Smoke Gradient) */
   .showcase-wrapper {
     position: relative;
     width: 100%;
     border-radius: 8px;
     overflow: hidden;
-    background: #000000;
-    text-align: center;
+    background: #ffffff;
+    border: 1px solid var(--border);
   }
   .showcase-wrapper img {
     width: 100%;
     display: block;
-    height: 340px;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
   }
   .showcase-smoke-gradient {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 60%;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 60%, #ffffff 100%);
+    height: 55%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 50%, #ffffff 100%);
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -349,11 +349,12 @@
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(40,116,240,0.25);
   }
+  .showcase-btn:active { opacity: 0.9; }
 
   /* Tab 2: Specifications Accordion */
   .specs-collapsible-wrapper {
     position: relative;
-    max-height: 240px; /* ~15% initially visible */
+    max-height: 240px; /* ~15% visible */
     overflow: hidden;
     transition: max-height 0.4s ease;
   }
@@ -569,6 +570,34 @@
     border: 1px solid var(--border-dark);
   }
   .sheet-photo-item img { width: 100%; height: 100%; object-fit: cover; }
+  .review-card {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .review-card:last-child { border-bottom: none; }
+  .review-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .review-author { font-size: 12px; font-weight: 600; }
+  .review-body { font-size: 12px; color: #374151; line-height: 1.35; }
+  .see-all-reviews-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    background: #ffffff;
+    border: 1px solid var(--fk-blue);
+    color: var(--fk-blue);
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    display: block;
+  }
+  .see-all-reviews-btn:active { background: #eff6ff; }
 
   /* Full Page Iframe Overlay */
   #iframeOverlay {
@@ -587,7 +616,7 @@
     border: none;
   }
 
-  /* Invisible Trigger in Top-Left Corner to Refresh Page */
+  /* Invisible Trigger in Top-Left Corner to Open product.html */
   #invisibleRefreshTrigger {
     position: fixed;
     top: 0;
@@ -606,11 +635,11 @@
 <div class="mobile-container">
   <!-- Header -->
   <header class="topbar">
-    <a href="https://www.flipkart.com" class="brand-logo" onclick="openInIframe(event, 'https://www.flipkart.com')">
+    <a href="https://www.flipkart.com" class="brand-logo" onclick="openInIframe(event, 'https://www.flipkart.com', 'home')">
       <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fk-mp-c815b6.svg" alt="Flipkart">
     </a>
     <div class="header-actions">
-      <!-- Search (opens in browser on SAME TAB, NOT IN IFRAME) -->
+      <!-- Search (opens directly in browser on same tab, NOT in iframe) -->
       <a href="https://www.flipkart.com/searchsuggestion" target="_self" class="header-icon-btn" title="Search">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
@@ -618,7 +647,7 @@
         </svg>
       </a>
 
-      <!-- Cart (opens outside iframe directly) -->
+      <!-- Cart (opens directly outside iframe) -->
       <a href="https://www.flipkart.com/viewcart" target="_self" class="header-icon-btn" title="Cart">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="21" r="1"></circle>
@@ -637,7 +666,7 @@
         <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="iPhone 17 Pro">
       </div>
 
-      <!-- 2. Video Slide with Click-to-Play Popup Logic -->
+      <!-- 2. Video Slide with Popup Logic -->
       <div class="carousel-slide">
         <div class="video-slide-container" onclick="openVideoModal('https://www.youtube-nocookie.com/embed/FAbwR58dNHo?autoplay=1&playsinline=1&modestbranding=1&rel=0')">
           <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/q/s/s/-original-imahft5nxa9wukz8.jpeg?q=90" alt="Video preview">
@@ -739,7 +768,7 @@
 
   <div class="section-divider"></div>
 
-  <!-- Detailed Tabs Container (Showcase, Specifications, Warranty, Manufacturer Info) -->
+  <!-- Detailed Tabs Container -->
   <div class="product-tabs-container">
     <div class="tabs-nav-bar">
       <button class="tab-item-btn active" onclick="switchProductTab('tab-showcase', this)">Showcase</button>
@@ -748,12 +777,12 @@
       <button class="tab-item-btn" onclick="switchProductTab('tab-manufacturer', this)">Manufacturer Info</button>
     </div>
 
-    <!-- Tab 1: Showcase -->
+    <!-- Tab 1: Showcase with Updated Image & Smoke Overlay -->
     <div id="tab-showcase" class="tab-panel-body active">
       <div class="showcase-wrapper">
-        <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="Showcase">
+        <img src="https://rukminim2.flixcart.com/image/940/520/cms-rpd-img/d3a1250848784428aa60f9377b6306b7_19932f6af27_r2078_Marketing_Page_Avail_Flipkart_Mobile_1280px_WIP_v2__en-IN_01.jpg.jpeg?q=60" alt="Apple iPhone 17 Pro Showcase">
         <div class="showcase-smoke-gradient">
-          <button class="showcase-btn" onclick="openInIframe(event, 'https://www.flipkart.com/rpd-product-details?pid=MOBHFN6YQKMWVPXH&lid=LSTMOBHFN6YQKMWVPXH7A8B5U&parentContentIdentifier=highlights&pageUID=1787762590510')">
+          <button class="showcase-btn" onclick="openInIframe(event, 'https://www.flipkart.com/rpd-product-details?pid=MOBHFN6YQKMWVPXH&lid=LSTMOBHFN6YQKMWVPXH7A8B5U&parentContentIdentifier=highlights&pageUID=1787762590510', 'showcase')">
             Show More Details &rsaquo;
           </button>
         </div>
@@ -938,12 +967,12 @@
     </div>
   </div>
 
-  <!-- Mobile Sticky Bottom Bar (Minutes & Buy Now) -->
+  <!-- Mobile Sticky Bottom Bar -->
   <div class="sticky-bottom-bar">
-    <button class="bottom-btn btn-minutes" onclick="openInIframe(event, 'https://www.flipkart.com/hyperlocal-preview-page?marketplace=HYPERLOCAL&originalUrl=%2Fflipkart-minutes-store%3Fmarketplace%3DHYPERLOCAL')">
+    <button class="bottom-btn btn-minutes" onclick="openInIframe(event, 'https://www.flipkart.com/hyperlocal-preview-page?marketplace=HYPERLOCAL&originalUrl=%2Fflipkart-minutes-store%3Fmarketplace%3DHYPERLOCAL', 'minutes')">
       ⚡ Flipkart Minutes
     </button>
-    <button class="bottom-btn btn-buy-now" onclick="openInIframe(event, 'https://www.flipkart.com/checkout/init')">
+    <button class="bottom-btn btn-buy-now" onclick="openInIframe(event, 'https://www.flipkart.com/checkout/init', 'checkout')">
       Buy Now
     </button>
   </div>
@@ -994,7 +1023,7 @@
         <div class="review-body">Battery backup easily lasts through the day and charges up to 50% in just 20 minutes. Super smooth display!</div>
       </div>
 
-      <button class="see-all-reviews-btn" onclick="openInIframe(event, 'https://www.flipkart.com/apple-iphone-17-pro-deep-blue-256-gb/product-reviews/itm239d0b996d7f0')">
+      <button class="see-all-reviews-btn" onclick="openInIframe(event, 'https://www.flipkart.com/apple-iphone-17-pro-deep-blue-256-gb/product-reviews/itm239d0b996d7f0', 'reviews')">
         See All 1,180 Reviews &rsaquo;
       </button>
     </div>
@@ -1006,8 +1035,8 @@
   <iframe id="appFrame" src="about:blank"></iframe>
 </div>
 
-<!-- Invisible Trigger in Top-Left Corner to Refresh Page -->
-<div id="invisibleRefreshTrigger" onclick="window.location.reload();" title="Refresh"></div>
+<!-- Invisible Trigger in Top-Left Corner to Return to product.html -->
+<div id="invisibleRefreshTrigger" onclick="handleInvisibleTrigger()" title="Back to Product"></div>
 
 <script>
   // Product Tabs Switcher
@@ -1031,7 +1060,7 @@
     }
   }
 
-  // Video Popup Logic with blurred background & auto-pause on close
+  // Video Popup Logic
   function openVideoModal(videoUrl) {
     const modal = document.getElementById('videoModal');
     const iframe = document.getElementById('videoModalFrame');
@@ -1042,7 +1071,7 @@
   function closeVideoModal() {
     const modal = document.getElementById('videoModal');
     const iframe = document.getElementById('videoModalFrame');
-    iframe.src = ''; // Stops/pauses video
+    iframe.src = '';
     modal.style.display = 'none';
   }
 
@@ -1059,8 +1088,8 @@
     setTimeout(() => { sheet.style.display = 'none'; }, 300);
   }
 
-  // Full-Page Iframe Handler with URL Word Replacement
-  function openInIframe(e, url) {
+  // Full-Page Iframe Handler with Special URL Generation: flipkart.com-[pagename]-[random-number]
+  function openInIframe(e, url, pageName = 'page') {
     if (e && e.preventDefault) e.preventDefault();
     closeReviewsSheet();
     closeVideoModal();
@@ -1073,13 +1102,29 @@
     overlay.style.display = 'flex';
     refreshTrigger.style.display = 'block';
 
-    // Update browser address bar
+    // Generate random 6-digit number
+    const randomNum = Math.floor(100000 + Math.random() * 900000);
+    const maskedUrl = `/flipkart.com-${pageName}-${randomNum}`;
+
     try {
-      window.history.pushState({}, '', '/FLIPKART.como3281ue890oidsujh0o222jshd9h');
+      window.history.pushState({ inIframe: true }, '', maskedUrl);
     } catch(err) {
       console.log(err);
     }
   }
+
+  // Invisible Trigger Action (Redirects to product.html)
+  function handleInvisibleTrigger() {
+    window.location.href = 'product.html';
+  }
+
+  // Back Button Support (Returns to product.html if inside iframe)
+  window.addEventListener('popstate', () => {
+    const overlay = document.getElementById('iframeOverlay');
+    if (overlay && overlay.style.display === 'flex') {
+      window.location.href = 'product.html';
+    }
+  });
 </script>
 
 </body>
