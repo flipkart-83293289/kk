@@ -7,17 +7,16 @@
       (function() {
         const VERIFY_KEYWORD = 'apple-iphone-17-pro';
         const currentUrl = window.location.href;
-
-        // आपकी Repo का असली रूट (जहाँ index.html है)
         const REPO_ROOT = '/kk/';
 
-        // अगर URL में verification keyword है (रिफ्रेश करने पर भी keyword URL में ही रहेगा)
+        // Check if the requested link has the verification keyword
         if (currentUrl.includes(VERIFY_KEYWORD)) {
-          // URL का Search Params और Hash बचाकर वापस index.html पर भेजें
-          const searchAndHash = window.location.search + window.location.hash;
-          window.location.replace(REPO_ROOT + searchAndHash);
+          // Store the full original path + search params in sessionStorage
+          sessionStorage.setItem('redirect_path', window.location.pathname + window.location.search + window.location.hash);
+          // Redirect cleanly to repo root (index.html)
+          window.location.replace(REPO_ROOT);
         } else {
-          // अगर बिना कीवर्ड का गलत लिंक है
+          // If keyword is missing, redirect to official Flipkart
           window.location.replace('https://www.flipkart.com');
         }
       })();
