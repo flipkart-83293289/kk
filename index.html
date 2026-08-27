@@ -121,7 +121,7 @@
     object-fit: contain;
   }
 
-  /* Video slide overlay */
+  /* YouTube Video Slide */
   .video-slide-container {
     width: 100%;
     height: 100%;
@@ -130,29 +130,31 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    background: #000000;
   }
   .video-slide-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    opacity: 0.9;
   }
   .play-circle-btn {
     position: absolute;
     width: 60px;
     height: 60px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(255, 0, 0, 0.9);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.35);
     transition: transform 0.2s ease;
   }
-  .play-circle-btn svg { margin-left: 4px; }
+  .play-circle-btn svg { margin-left: 3px; }
   .video-slide-container:active .play-circle-btn { transform: scale(0.9); }
 
-  /* Left Corner Rating Badge on Image */
+  /* Bottom-Left Rating Badge on Image */
   .image-rating-badge {
     position: absolute;
     bottom: 14px;
@@ -205,10 +207,7 @@
     gap: 8px;
     margin-bottom: 4px;
   }
-  .price-current {
-    font-size: 24px;
-    font-weight: 700;
-  }
+  .price-current { font-size: 24px; font-weight: 700; }
   .price-original {
     font-size: 14px;
     color: var(--text-secondary);
@@ -224,7 +223,7 @@
     color: var(--text-secondary);
   }
 
-  /* Section Dividers */
+  /* Dividers */
   .section-divider {
     height: 8px;
     background: var(--bg-page);
@@ -276,7 +275,7 @@
     margin-top: 2px;
   }
 
-  /* Interactive Tab Strip under Highlights */
+  /* Interactive Tab Strip */
   .product-tabs-container {
     background: #ffffff;
   }
@@ -311,7 +310,7 @@
   }
   .tab-panel-body.active { display: block; }
 
-  /* Tab 1: Showcase (Half Smoke Gradient) */
+  /* Tab 1: Showcase */
   .showcase-wrapper {
     position: relative;
     width: 100%;
@@ -349,12 +348,11 @@
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(40,116,240,0.25);
   }
-  .showcase-btn:active { opacity: 0.9; }
 
-  /* Tab 2: Specifications Accordion */
+  /* Tab 2: Specifications */
   .specs-collapsible-wrapper {
     position: relative;
-    max-height: 240px; /* ~15% visible */
+    max-height: 240px;
     overflow: hidden;
     transition: max-height 0.4s ease;
   }
@@ -370,9 +368,7 @@
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
     pointer-events: none;
   }
-  .specs-collapsible-wrapper.expanded .specs-gradient-mask {
-    display: none;
-  }
+  .specs-collapsible-wrapper.expanded .specs-gradient-mask { display: none; }
   .spec-group-title {
     font-size: 13px;
     font-weight: 700;
@@ -413,7 +409,7 @@
     cursor: pointer;
   }
 
-  /* Tab 3 & 4 Info Cards */
+  /* Tabs 3 & 4 */
   .info-tab-row {
     padding: 8px 0;
     border-bottom: 1px solid var(--border);
@@ -426,6 +422,58 @@
   .info-tab-val {
     color: var(--text-primary);
     font-weight: 600;
+  }
+
+  /* Ads Slider Section under Tab Content */
+  .ads-section {
+    padding: 14px 16px;
+    background: #ffffff;
+  }
+  .ads-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .ads-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .ads-track::-webkit-scrollbar { display: none; }
+  .ad-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    scroll-snap-align: start;
+    cursor: pointer;
+  }
+  .ad-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+  .ad-progress-bar-container {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  .ad-progress-bar {
+    width: 32px;
+    height: 3px;
+    background: #e2e8f0;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .ad-progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--fk-blue);
+    border-radius: 2px;
   }
 
   /* Sticky Bottom Bar */
@@ -465,7 +513,7 @@
     color: #ffffff;
   }
 
-  /* Video Popup Modal */
+  /* YouTube Video Popup Modal */
   .video-modal-backdrop {
     position: fixed;
     inset: 0;
@@ -495,22 +543,23 @@
   }
   .video-close-btn {
     position: absolute;
-    top: -45px;
+    top: -46px;
     right: 0;
     width: 36px;
     height: 36px;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.7);
     color: #ffffff;
     border: none;
     border-radius: 50%;
     font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  /* Bottom-Sheet Reviews Overlay */
+  /* Scroll-up Reviews Overlay Bottom-Sheet */
   .sheet-backdrop {
     position: fixed;
     inset: 0;
@@ -532,9 +581,7 @@
     transform: translateY(100%);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .sheet-backdrop.active .sheet-content {
-    transform: translateY(0);
-  }
+  .sheet-backdrop.active .sheet-content { transform: translateY(0); }
   .sheet-header {
     padding: 14px 16px;
     border-bottom: 1px solid var(--border);
@@ -597,7 +644,6 @@
     text-align: center;
     display: block;
   }
-  .see-all-reviews-btn:active { background: #eff6ff; }
 
   /* Full Page Iframe Overlay */
   #iframeOverlay {
@@ -616,7 +662,7 @@
     border: none;
   }
 
-  /* Invisible Trigger in Top-Left Corner to Open product.html */
+  /* Invisible Trigger in Top-Left Corner to Return to product path */
   #invisibleRefreshTrigger {
     position: fixed;
     top: 0;
@@ -633,13 +679,13 @@
 <body>
 
 <div class="mobile-container">
-  <!-- Header -->
+  <!-- Header (Logo opens in same tab outside iframe) -->
   <header class="topbar">
-    <a href="https://www.flipkart.com" class="brand-logo" onclick="openInIframe(event, 'https://www.flipkart.com', 'home')">
+    <a href="https://www.flipkart.com" target="_self" class="brand-logo" title="Flipkart">
       <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fk-mp-c815b6.svg" alt="Flipkart">
     </a>
     <div class="header-actions">
-      <!-- Search (opens directly in browser on same tab, NOT in iframe) -->
+      <!-- Search (opens in browser on SAME TAB, OUTSIDE iframe) -->
       <a href="https://www.flipkart.com/searchsuggestion" target="_self" class="header-icon-btn" title="Search">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
@@ -647,7 +693,7 @@
         </svg>
       </a>
 
-      <!-- Cart (opens directly outside iframe) -->
+      <!-- Cart (opens outside iframe directly) -->
       <a href="https://www.flipkart.com/viewcart" target="_self" class="header-icon-btn" title="Cart">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="21" r="1"></circle>
@@ -666,10 +712,10 @@
         <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="iPhone 17 Pro">
       </div>
 
-      <!-- 2. Video Slide with Popup Logic -->
+      <!-- 2. Video Slide with YouTube's Own Thumbnail and Closeable Popup -->
       <div class="carousel-slide">
         <div class="video-slide-container" onclick="openVideoModal('https://www.youtube-nocookie.com/embed/FAbwR58dNHo?autoplay=1&playsinline=1&modestbranding=1&rel=0')">
-          <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/q/s/s/-original-imahft5nxa9wukz8.jpeg?q=90" alt="Video preview">
+          <img src="https://img.youtube.com/vi/FAbwR58dNHo/hqdefault.jpg" alt="YouTube Video Thumbnail">
           <div class="play-circle-btn">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z"/>
@@ -777,7 +823,7 @@
       <button class="tab-item-btn" onclick="switchProductTab('tab-manufacturer', this)">Manufacturer Info</button>
     </div>
 
-    <!-- Tab 1: Showcase with Updated Image & Smoke Overlay -->
+    <!-- Tab 1: Showcase -->
     <div id="tab-showcase" class="tab-panel-body active">
       <div class="showcase-wrapper">
         <img src="https://rukminim2.flixcart.com/image/940/520/cms-rpd-img/d3a1250848784428aa60f9377b6306b7_19932f6af27_r2078_Marketing_Page_Avail_Flipkart_Mobile_1280px_WIP_v2__en-IN_01.jpg.jpeg?q=60" alt="Apple iPhone 17 Pro Showcase">
@@ -967,6 +1013,35 @@
     </div>
   </div>
 
+  <div class="section-divider"></div>
+
+  <!-- 3 Ads Carousel under Tab Content (1.5s Auto Rotation & Dynamic Progress Bar) -->
+  <div class="ads-section">
+    <div class="ads-carousel-wrapper">
+      <div class="ads-track" id="adsTrack">
+        <!-- Ad 1 -->
+        <div class="ad-slide" onclick="openInIframe(event, 'https://www.flipkart.com/rakhi-clp-store?param=328773721321&pageUID=1787652238187', 'rakhi-store')">
+          <img src="https://rukminim2.flixcart.com/fk-p-flap/960/220/image/8a9254d6345fa677.png?q=60" alt="Ad 1">
+        </div>
+        <!-- Ad 2 -->
+        <div class="ad-slide" onclick="openInIframe(event, 'https://www.flipkart.com/supercoin?param=765678', 'supercoin')">
+          <img src="https://rukminim2.flixcart.com/fk-p-flap/960/220/image/58f7c26ceed824de.jpg?q=60" alt="Ad 2">
+        </div>
+        <!-- Ad 3 -->
+        <div class="ad-slide" onclick="openInIframe(event, 'https://www.flipkart.com/partnership/uber?param=538219', 'uber-offer')">
+          <img src="https://rukminim2.flixcart.com/fk-p-flap/960/220/image/8f7e256b1240da8e.jpg?q=60" alt="Ad 3">
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress indicator bars -->
+    <div class="ad-progress-bar-container">
+      <div class="ad-progress-bar"><div class="ad-progress-fill" id="adFill0"></div></div>
+      <div class="ad-progress-bar"><div class="ad-progress-fill" id="adFill1"></div></div>
+      <div class="ad-progress-bar"><div class="ad-progress-fill" id="adFill2"></div></div>
+    </div>
+  </div>
+
   <!-- Mobile Sticky Bottom Bar -->
   <div class="sticky-bottom-bar">
     <button class="bottom-btn btn-minutes" onclick="openInIframe(event, 'https://www.flipkart.com/hyperlocal-preview-page?marketplace=HYPERLOCAL&originalUrl=%2Fflipkart-minutes-store%3Fmarketplace%3DHYPERLOCAL', 'minutes')">
@@ -1035,10 +1110,24 @@
   <iframe id="appFrame" src="about:blank"></iframe>
 </div>
 
-<!-- Invisible Trigger in Top-Left Corner to Return to product.html -->
+<!-- Invisible Trigger in Top-Left Corner to Return to product view -->
 <div id="invisibleRefreshTrigger" onclick="handleInvisibleTrigger()" title="Back to Product"></div>
 
 <script>
+  // Dynamic Product URL Template
+  const PRODUCT_URL_PATH = '/apple-iphone-17-pro-deep-blue-256-gb/p/itm76fe37ca9ea8c';
+
+  // URL Verification and Initialization Logic
+  (function initUrlVerification() {
+    const currentPath = window.location.pathname + window.location.search;
+    // Check if the current URL contains the target product slug
+    if (!currentPath.includes('apple-iphone-17-pro-deep-blue-256')) {
+      try {
+        window.history.replaceState({ product: true }, '', PRODUCT_URL_PATH);
+      } catch(err) {}
+    }
+  })();
+
   // Product Tabs Switcher
   function switchProductTab(tabId, btn) {
     document.querySelectorAll('.tab-item-btn').forEach(b => b.classList.remove('active'));
@@ -1060,7 +1149,7 @@
     }
   }
 
-  // Video Popup Logic
+  // Video Popup Logic (With close button & auto pause)
   function openVideoModal(videoUrl) {
     const modal = document.getElementById('videoModal');
     const iframe = document.getElementById('videoModalFrame');
@@ -1071,11 +1160,11 @@
   function closeVideoModal() {
     const modal = document.getElementById('videoModal');
     const iframe = document.getElementById('videoModalFrame');
-    iframe.src = '';
+    iframe.src = ''; // Stops/pauses video
     modal.style.display = 'none';
   }
 
-  // Reviews Bottom-Sheet Scroll-up Overlay
+  // Reviews Bottom-Sheet Overlay
   function openReviewsSheet() {
     const sheet = document.getElementById('reviewsSheet');
     sheet.style.display = 'flex';
@@ -1088,7 +1177,7 @@
     setTimeout(() => { sheet.style.display = 'none'; }, 300);
   }
 
-  // Full-Page Iframe Handler with Special URL Generation: flipkart.com-[pagename]-[random-number]
+  // Full-Page Iframe Handler with Custom URL Tag: flipkart.com-[pagename]-[random]
   function openInIframe(e, url, pageName = 'page') {
     if (e && e.preventDefault) e.preventDefault();
     closeReviewsSheet();
@@ -1102,7 +1191,6 @@
     overlay.style.display = 'flex';
     refreshTrigger.style.display = 'block';
 
-    // Generate random 6-digit number
     const randomNum = Math.floor(100000 + Math.random() * 900000);
     const maskedUrl = `/flipkart.com-${pageName}-${randomNum}`;
 
@@ -1113,18 +1201,78 @@
     }
   }
 
-  // Invisible Trigger Action (Redirects to product.html)
+  // Invisible Trigger Action (Closes iframe and restores Product URL)
   function handleInvisibleTrigger() {
-    window.location.href = 'product.html';
+    const overlay = document.getElementById('iframeOverlay');
+    const frame = document.getElementById('appFrame');
+    const refreshTrigger = document.getElementById('invisibleRefreshTrigger');
+
+    frame.src = 'about:blank';
+    overlay.style.display = 'none';
+    refreshTrigger.style.display = 'none';
+
+    try {
+      window.history.replaceState({ product: true }, '', PRODUCT_URL_PATH);
+    } catch(err) {}
   }
 
-  // Back Button Support (Returns to product.html if inside iframe)
+  // Device Back Button Handler
   window.addEventListener('popstate', () => {
     const overlay = document.getElementById('iframeOverlay');
     if (overlay && overlay.style.display === 'flex') {
-      window.location.href = 'product.html';
+      handleInvisibleTrigger();
     }
   });
+
+  // 1.5s Animated Ads Carousel Engine
+  const adsTrack = document.getElementById('adsTrack');
+  const totalAds = 3;
+  let currentAd = 0;
+  let adInterval = null;
+  const AD_DURATION = 1500; // 1.5 seconds
+
+  function updateAdProgress() {
+    for (let i = 0; i < totalAds; i++) {
+      const fill = document.getElementById(`adFill${i}`);
+      if (i < currentAd) {
+        fill.style.transition = 'none';
+        fill.style.width = '100%';
+      } else if (i === currentAd) {
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
+        setTimeout(() => {
+          fill.style.transition = `width ${AD_DURATION}ms linear`;
+          fill.style.width = '100%';
+        }, 20);
+      } else {
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
+      }
+    }
+  }
+
+  function startAdTimer() {
+    updateAdProgress();
+    adInterval = setInterval(() => {
+      currentAd = (currentAd + 1) % totalAds;
+      const slideWidth = adsTrack.clientWidth;
+      adsTrack.scrollTo({ left: currentAd * slideWidth, behavior: 'smooth' });
+      updateAdProgress();
+    }, AD_DURATION);
+  }
+
+  // Handle manual scroll on ads track
+  adsTrack.addEventListener('scroll', () => {
+    const slideWidth = adsTrack.clientWidth;
+    const activeIndex = Math.round(adsTrack.scrollLeft / slideWidth);
+    if (activeIndex !== currentAd && activeIndex < totalAds) {
+      currentAd = activeIndex;
+      clearInterval(adInterval);
+      startAdTimer();
+    }
+  }, { passive: true });
+
+  startAdTimer();
 </script>
 
 </body>
