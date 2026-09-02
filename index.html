@@ -22,7 +22,8 @@
           var param = search.split('p=')[1];
           if (param) {
             var originalPath = decodeURIComponent(param.split('&')[0]);
-            window.history.replaceState({ product: true }, '', '/kk' + originalPath);
+            var finalPath = originalPath.indexOf('/kk') === 0 ? originalPath : '/kk' + (originalPath.indexOf('/') === 0 ? originalPath : '/' + originalPath);
+            window.history.replaceState({ product: true }, '', finalPath);
           }
         } catch(e) {}
       }
@@ -439,8 +440,19 @@
     z-index: 150;
     border-top: 1px solid var(--border-dark);
   }
-  .footer-cart-box { width: 48px; height: 48px; flex: 0 0 48px; background: #ffffff; border: 1.5px solid var(--border-dark); border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; color: var(--text-primary); }
-  .cart-badge-check { position: absolute; top: 5px; right: 5px; width: 13px; height: 13px; background: var(--rating-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 8px; font-weight: 800; }
+  .footer-cart-box { 
+    width: 48px; 
+    height: 48px; 
+    flex: 0 0 48px; 
+    background: #ffffff; 
+    border: 1.5px solid var(--border-dark); 
+    border-radius: 12px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    position: relative; 
+    cursor: pointer; 
+  }
   .footer-minutes-btn { flex: 1; height: 48px; background: #ffffff; border: 1.5px solid var(--border-dark); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; padding: 2px 4px; }
   .footer-min-title { font-size: 13px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
   .footer-min-sub { font-size: 10px; color: var(--text-secondary); line-height: 1.2; margin-top: 2px; }
@@ -742,7 +754,7 @@
       </div>
     </div>
 
-    <!-- Feature Ratings Pills -->
+    <!-- Feature Tags Pills -->
     <div class="rating-pills-row">
       <div class="rating-pill-item">Camera 4.8 ★</div>
       <div class="rating-pill-item">Battery 4.5 ★</div>
@@ -790,9 +802,7 @@
       <span style="cursor:pointer;" onclick="openInWeb(event, 'https://www.flipkart.com/search?q=smartphones')">➔</span>
     </div>
     
-    <div class="similar-products-track" id="similarProductsTrack">
-      <!-- Dynamic Products injected via JavaScript -->
-    </div>
+    <div class="similar-products-track" id="similarProductsTrack"></div>
   </div>
 
   <div class="section-divider"></div>
@@ -822,9 +832,14 @@
 
   <!-- ---------------- STICKY FOOTER ---------------- -->
   <div class="sticky-bottom-bar">
+    <!-- Footer Cart Icon (Same header SVG without numbers) -->
     <div class="footer-cart-box" onclick="openInWeb(event, 'https://www.flipkart.com/viewcart')">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-      <div class="cart-badge-check">✓</div>
+      <svg width="24" height="24" viewBox="0 0 256 256">
+        <path d="M184 184H69.8L41.9 30.6a8 8 0 0 0-7.8-6.6H16" fill="none" stroke="#333333ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"></path>
+        <circle cx="80" cy="204" r="18" fill="none" stroke="#333333ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"></circle>
+        <circle cx="184" cy="204" r="18" fill="none" stroke="#333333ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"></circle>
+        <path d="M62.5 144h125.6a15.9 15.9 0 0 0 15.7-13.1L216 64H48" fill="none" stroke="#333333ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"></path>
+      </svg>
     </div>
 
     <button type="button" class="footer-minutes-btn" onclick="openInIframe(event, 'https://www.flipkart.com/hyperlocal-preview-page?marketplace=HYPERLOCAL&originalUrl=%2Fflipkart-minutes-store%3Fmarketplace%3DHYPERLOCAL', 'minutes')">
@@ -832,7 +847,7 @@
       <div class="footer-min-sub">10-15 Mins Delivery</div>
     </button>
 
-    <!-- Buy Now with Dynamic Checkout URL Masking -->
+    <!-- Buy Now Button -->
     <button type="button" class="footer-buy-btn" onclick="handleBuyNowClick(event)">
       <div class="footer-buy-title">Buy now</div>
       <div class="footer-buy-price">at ₹1,29,900</div>
@@ -863,22 +878,11 @@
     }, 120);
   }
 
-  // Dynamic Buy Now Checkout Masking
+  // Clean & Short Buy Now Redirection with /kk/
   function handleBuyNowClick(e) {
     if (e && e.preventDefault) e.preventDefault();
-    
-    var chars = 'ABCDEFGHIJKLjklmnopqrstuvwxyz012789';
-    var randomToken = '';
-    for (var i = 0; i < 15; i++) {
-      randomToken += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    
-    var maskedCheckoutUrl = '/kk/checkout/apple-iphone-17-pro/' + randomToken;
-    try {
-      window.history.pushState({ checkout: true }, '', maskedCheckoutUrl);
-    } catch(err) {}
-    
-    window.location.href = 'buy.html';
+    // Redirects cleanly to /kk/buy.html with the product keyword (No huge URL issue)
+    window.location.href = '/kk/buy.html?p=apple-iphone-17-pro';
   }
 
   // Similar Products Static Data Set
@@ -962,7 +966,6 @@
     }
   ];
 
-  // Shuffle Engine for Similar Products
   function renderShuffledSimilarProducts() {
     var shuffled = similarProductsData.slice().sort(function() { return 0.5 - Math.random(); });
     var container = document.getElementById('similarProductsTrack');
@@ -1030,7 +1033,7 @@
     document.getElementById('videoModal').style.display = 'none';
   }
 
-  // Full-Page Iframe Handler
+  // Full-Page Iframe Handler with /kk/ Prefix
   function openInIframe(e, url, pageName) {
     if (e && e.preventDefault) e.preventDefault();
     closeVideoModal();
@@ -1039,7 +1042,7 @@
     overlay.style.display = 'flex';
     document.getElementById('invisibleRefreshTrigger').style.display = 'block';
     const randomNum = Math.floor(100000 + Math.random() * 900000);
-    try { window.history.pushState({ inIframe: true }, '', `/flipkart.com-${pageName || 'page'}-${randomNum}`); } catch(err) {}
+    try { window.history.pushState({ inIframe: true }, '', `/kk/flipkart.com-${pageName || 'page'}-${randomNum}`); } catch(err) {}
   }
 
   function handleInvisibleTrigger() {
