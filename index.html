@@ -21,9 +21,12 @@
         try {
           var param = search.split('p=')[1];
           if (param) {
-            var originalPath = decodeURIComponent(param.split('&')[0]);
-            var finalPath = originalPath.indexOf('/kk') === 0 ? originalPath : '/kk' + (originalPath.indexOf('/') === 0 ? originalPath : '/' + originalPath);
-            window.history.replaceState({ product: true }, '', finalPath);
+            var rawVal = decodeURIComponent(param.split('&')[0]);
+            // Prevent recursive nesting
+            if (rawVal.indexOf('/') !== -1) {
+              var finalPath = rawVal.indexOf('/kk') === 0 ? rawVal : '/kk' + (rawVal.indexOf('/') === 0 ? rawVal : '/' + rawVal);
+              window.history.replaceState({ product: true }, '', finalPath);
+            }
           }
         } catch(e) {}
       }
@@ -113,57 +116,40 @@
     cursor: pointer;
     text-decoration: none;
   }
-  .fk-search-box svg {
-    margin-right: 8px;
-    flex-shrink: 0;
-  }
-  .fk-search-placeholder {
-    color: rgb(112, 112, 112);
-    font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .fk-cart-btn-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-  .fk-cart-badge {
-    position: absolute;
-    top: 1px;
-    right: 2px;
-    background-color: rgb(227, 18, 46);
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: 700;
-    min-width: 16px;
-    height: 16px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 4px;
-    line-height: 1;
-  }
+  .fk-search-box svg { margin-right: 8px; flex-shrink: 0; }
+  .fk-search-placeholder { color: rgb(112, 112, 112); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fk-cart-btn-wrap { position: relative; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; cursor: pointer; flex-shrink: 0; }
+  .fk-cart-badge { position: absolute; top: 1px; right: 2px; background-color: rgb(227, 18, 46); color: #ffffff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 4px; line-height: 1; }
 
-  /* Product Carousel */
+  /* ---------------- PRODUCT CAROUSEL (HEIGHT INCREASED) ---------------- */
   .carousel-wrapper { position: relative; width: 100%; background: #ffffff; }
   .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .carousel-track::-webkit-scrollbar { display: none; }
-  .carousel-slide { flex: 0 0 100%; width: 100%; height: 380px; scroll-snap-align: center; scroll-snap-stop: always; display: flex; align-items: center; justify-content: center; background: #ffffff; }
-  .carousel-slide img { width: 92%; height: 92%; object-fit: contain; }
+  .carousel-slide { flex: 0 0 100%; width: 100%; height: 425px; scroll-snap-align: center; scroll-snap-stop: always; display: flex; align-items: center; justify-content: center; background: #ffffff; }
+  .carousel-slide img { width: 94%; height: 94%; object-fit: contain; }
 
   .video-slide-container { width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center; background: #000; cursor: pointer; }
   .video-slide-container img { width: 100%; height: 100%; object-fit: cover; opacity: 0.92; }
   .play-circle-btn { position: absolute; width: 54px; height: 54px; background: #ff0000; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; box-shadow: 0 4px 18px rgba(0,0,0,0.4); }
 
-  .image-rating-badge { position: absolute; bottom: 12px; left: 14px; background: rgba(255, 255, 255, 0.95); border: 1px solid var(--border-dark); padding: 3px 8px; border-radius: 14px; display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; cursor: pointer; }
+  .image-rating-badge { 
+    position: absolute; 
+    bottom: 12px; 
+    left: 14px; 
+    background: rgba(255, 255, 255, 0.96); 
+    border: 1px solid var(--border-dark); 
+    padding: 4px 9px; 
+    border-radius: 14px; 
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+    font-size: 11px; 
+    font-weight: 700; 
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.15s ease;
+  }
+  .image-rating-badge:active { transform: scale(0.96); }
   .star-pill { background: var(--rating-green); color: #ffffff; font-size: 11px; padding: 2px 5px; border-radius: 4px; display: inline-flex; align-items: center; gap: 2px; }
 
   .carousel-dots-container { display: flex; justify-content: center; gap: 5px; padding: 8px 0 10px; }
@@ -171,143 +157,28 @@
   .carousel-dot.active { width: 18px; background: var(--fk-blue); }
 
   /* ---------------- COLOR & VARIANT SELECTOR STYLES ---------------- */
-  .variant-selector-section {
-    padding: 14px 16px;
-    background: #ffffff;
-  }
-  .variant-section-header {
-    display: flex;
-    align-items: baseline;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-black);
-    margin-bottom: 10px;
-  }
-  .variant-section-header span {
-    font-weight: 500;
-    margin-left: 6px;
-    color: var(--text-black);
-  }
-  .color-row {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin-bottom: 18px;
-  }
-  .color-card {
-    position: relative;
-    width: 66px;
-    height: 82px;
-    border-radius: 12px;
-    border: 1.6px solid var(--border-grey);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffffff;
-    cursor: pointer;
-  }
-  .color-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 4px;
-  }
-  .color-card.selected {
-    border-color: var(--selected-border);
-    border-width: 2px;
-  }
-  .color-card.out-of-stock {
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-  .color-card.out-of-stock::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.25);
-    z-index: 1;
-  }
-  .color-card.out-of-stock .stock-badge {
-    position: absolute;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.95);
-    color: var(--out-of-stock);
-    font-size: 9px;
-    font-weight: 700;
-    text-align: center;
-    padding: 3px 0;
-    z-index: 2;
-    line-height: 1;
-  }
+  .variant-selector-section { padding: 14px 16px; background: #ffffff; }
+  .variant-section-header { display: flex; align-items: baseline; font-size: 13px; font-weight: 700; color: var(--text-black); margin-bottom: 10px; }
+  .variant-section-header span { font-weight: 500; margin-left: 6px; color: var(--text-black); }
+  .color-row { display: flex; flex-direction: row; gap: 10px; margin-bottom: 18px; }
+  .color-card { position: relative; width: 66px; height: 82px; border-radius: 12px; border: 1.6px solid var(--border-grey); overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: #ffffff; cursor: pointer; }
+  .color-card img { width: 100%; height: 100%; object-fit: contain; padding: 4px; }
+  .color-card.selected { border-color: var(--selected-border); border-width: 2px; }
+  .color-card.out-of-stock { cursor: not-allowed; pointer-events: none; }
+  .color-card.out-of-stock::before { content: ''; position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.25); z-index: 1; }
+  .color-card.out-of-stock .stock-badge { position: absolute; width: 100%; background-color: rgba(255, 255, 255, 0.95); color: var(--out-of-stock); font-size: 9px; font-weight: 700; text-align: center; padding: 3px 0; z-index: 2; line-height: 1; }
 
-  .variant-row {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    margin-bottom: 18px;
-  }
-  .variant-card {
-    flex: 1;
-    min-height: 76px;
-    border-radius: 12px;
-    border: 1.6px solid var(--border-grey);
-    background-color: #ffffff;
-    padding: 8px 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    cursor: pointer;
-  }
-  .variant-card.selected {
-    border-color: var(--selected-border);
-    background-color: #f5f5f5;
-    border-width: 1.8px;
-  }
-  .variant-card.disabled {
-    cursor: not-allowed;
-    pointer-events: none;
-    background-color: #fafafa;
-    border-color: #e6e6e6;
-  }
-  .variant-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text-black);
-    margin-bottom: 3px;
-  }
-  .variant-divider {
-    height: 1px;
-    background-color: #ebebeb;
-    margin: 3px 0 5px 0;
-  }
-  .variant-price-subrow {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-  }
-  .variant-discount {
-    color: var(--green-discount);
-    font-size: 11px;
-    font-weight: 700;
-  }
-  .variant-old-price {
-    color: var(--text-grey);
-    font-size: 11px;
-    text-decoration: line-through;
-  }
-  .variant-final-price {
-    color: var(--text-black);
-    font-size: 13px;
-    font-weight: 700;
-    margin-top: 1px;
-  }
-  .out-of-stock-text {
-    color: var(--out-of-stock);
-    font-size: 11px;
-    font-weight: 600;
-    margin-top: 2px;
-  }
+  .variant-row { display: flex; flex-direction: row; gap: 10px; margin-bottom: 18px; }
+  .variant-card { flex: 1; min-height: 76px; border-radius: 12px; border: 1.6px solid var(--border-grey); background-color: #ffffff; padding: 8px 10px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; }
+  .variant-card.selected { border-color: var(--selected-border); background-color: #f5f5f5; border-width: 1.8px; }
+  .variant-card.disabled { cursor: not-allowed; pointer-events: none; background-color: #fafafa; border-color: #e6e6e6; }
+  .variant-title { font-size: 13px; font-weight: 700; color: var(--text-black); margin-bottom: 3px; }
+  .variant-divider { height: 1px; background-color: #ebebeb; margin: 3px 0 5px 0; }
+  .variant-price-subrow { display: flex; align-items: baseline; gap: 4px; }
+  .variant-discount { color: var(--green-discount); font-size: 11px; font-weight: 700; }
+  .variant-old-price { color: var(--text-grey); font-size: 11px; text-decoration: line-through; }
+  .variant-final-price { color: var(--text-black); font-size: 13px; font-weight: 700; margin-top: 1px; }
+  .out-of-stock-text { color: var(--out-of-stock); font-size: 11px; font-weight: 600; margin-top: 2px; }
 
   /* Product Details */
   .product-content { padding: 14px 16px 14px; background: #ffffff; }
@@ -363,7 +234,24 @@
   /* ---------------- INLINE RATINGS & REVIEWS SECTION ---------------- */
   .reviews-main-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
   .reviews-main-title { font-size: 16px; font-weight: 700; }
-  .reviews-collapse-btn { width: 28px; height: 28px; border-radius: 6px; background: #f1f2f4; display: flex; align-items: center; justify-content: center; font-size: 14px; border: none; cursor: pointer; }
+  .reviews-collapse-btn { 
+    width: 28px; 
+    height: 28px; 
+    border-radius: 6px; 
+    background: #f1f2f4; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 15px; 
+    font-weight: bold;
+    border: none; 
+    cursor: pointer; 
+    transition: transform 0.25s ease;
+  }
+  .reviews-collapse-btn.collapsed { transform: rotate(180deg); }
+
+  .reviews-collapsible-body { overflow: hidden; transition: max-height 0.35s ease; max-height: 1200px; }
+  .reviews-collapsible-body.hidden { max-height: 0; }
   
   .reviews-score-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
   .reviews-score-badge { font-size: 16px; font-weight: 800; }
@@ -377,7 +265,7 @@
   .photos-grid-right { flex: 1.5; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px; }
   .photo-grid-cell { position: relative; border-radius: 8px; overflow: hidden; }
   .photo-grid-cell img { width: 100%; height: 100%; object-fit: cover; }
-  .photo-more-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; }
+  .photo-more-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); color: #ffffff; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; cursor: pointer; }
 
   /* Feature Tags Pills */
   .rating-pills-row { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; margin-bottom: 16px; flex-wrap: wrap; }
@@ -460,6 +348,136 @@
   .footer-buy-title { font-size: 14px; font-weight: 800; color: #111827; line-height: 1.2; }
   .footer-buy-price { font-size: 11px; font-weight: 600; color: #1f2937; line-height: 1.2; }
 
+  /* ---------------- NEW REVIEW BOTTOM SHEET OVERLAY ---------------- */
+  .review-overlay-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .review-bottom-sheet {
+    width: 100%;
+    max-width: 480px;
+    background: #ffffff;
+    border-radius: 20px 20px 0 0;
+    padding: 20px 18px 24px;
+    transform: translateY(100%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+  }
+  .review-overlay-backdrop.active .review-bottom-sheet {
+    transform: translateY(0);
+  }
+  .sheet-handle {
+    width: 44px;
+    height: 5px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    margin: 0 auto 16px;
+  }
+  .sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .sheet-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-black);
+  }
+  .sheet-close-btn {
+    background: #f1f2f4;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+  .sheet-rating-summary {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+  .sheet-big-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #e2e8f0;
+    padding-right: 16px;
+  }
+  .sheet-score-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--rating-green);
+    line-height: 1;
+  }
+  .sheet-score-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .sheet-bars-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sheet-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .sheet-bar-track {
+    flex: 1;
+    height: 5px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .sheet-bar-fill {
+    height: 100%;
+    background: var(--rating-green);
+    border-radius: 3px;
+  }
+  .sheet-show-more-btn {
+    width: 100%;
+    padding: 14px;
+    background: #ffffff;
+    border: 1.8px solid var(--fk-blue);
+    color: var(--fk-blue);
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 8px;
+    transition: background-color 0.15s;
+  }
+  .sheet-show-more-btn:active {
+    background-color: #f0f7ff;
+  }
+
   /* Modals */
   .video-modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 2500; display: none; align-items: center; justify-content: center; padding: 16px; }
   .video-modal-box { width: 100%; max-width: 460px; background: #000; border-radius: 12px; position: relative; }
@@ -508,7 +526,7 @@
     </div>
   </header>
 
-  <!-- Product Carousel -->
+  <!-- ---------------- PRODUCT CAROUSEL (425px HEIGHT) ---------------- -->
   <div class="carousel-wrapper">
     <div class="carousel-track" id="productCarouselTrack">
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="iPhone 17 Pro Deep Blue"></div>
@@ -529,7 +547,9 @@
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/n/a/n/-original-imahft5nq7z4bnmn.jpeg?q=90" alt="Slide 11"></div>
       <div class="carousel-slide"><img src="https://rukminim2.flixcart.com/image/980/980/xif0q/mobile/l/z/q/-original-imahft57f3qjg325.jpeg?q=90" alt="Slide 12"></div>
     </div>
-    <div class="image-rating-badge">
+    
+    <!-- Rating badge that triggers modern bottom-sheet -->
+    <div class="image-rating-badge" onclick="openReviewsBottomSheet()">
       <span class="star-pill">4.7 ★</span><span>|</span><span>44.8k+</span>
     </div>
   </div>
@@ -540,37 +560,29 @@
 
   <!-- ---------------- 1. COLOR & 2. VARIANT SELECTOR SECTION ---------------- -->
   <div class="variant-selector-section">
-    <!-- Color Selector -->
     <div class="variant-section-header">
       Selected Color: <span>Deep Blue</span>
     </div>
 
     <div class="color-row">
-      <!-- 1st Color: Cosmic Orange (Out of stock) -->
       <div class="color-card out-of-stock">
         <span class="stock-badge">Out of stock</span>
         <img src="https://rukminim2.flixcart.com/image/70/100/xif0q/mobile/n/v/a/-original-imahft5nxmyqndhf.jpeg?q=90" alt="Cosmic Orange">
       </div>
-
-      <!-- 2nd Color: Deep Blue (SELECTED & Available) -->
       <div class="color-card selected">
         <img src="https://rukminim2.flixcart.com/image/70/100/xif0q/mobile/5/i/n/-original-imahft5ndwfkx6ez.jpeg?q=90" alt="Deep Blue">
       </div>
-
-      <!-- 3rd Color: Silver (Out of stock) -->
       <div class="color-card out-of-stock">
         <span class="stock-badge">Out of stock</span>
         <img src="https://rukminim2.flixcart.com/image/70/100/xif0q/mobile/b/j/o/-original-imahft5nm9eewyzh.jpeg?q=90" alt="Silver">
       </div>
     </div>
 
-    <!-- Variant Selector -->
     <div class="variant-section-header">
       Variant: <span>256 GB</span>
     </div>
 
     <div class="variant-row">
-      <!-- 256 GB (SELECTED & Available) -->
       <div class="variant-card selected">
         <div class="variant-title">256 GB</div>
         <div class="variant-divider"></div>
@@ -580,15 +592,11 @@
         </div>
         <div class="variant-final-price">₹1,29,900</div>
       </div>
-
-      <!-- 512 GB (Out of stock & Disabled) -->
       <div class="variant-card disabled">
         <div class="variant-title">512 GB</div>
         <div class="variant-divider"></div>
         <div class="out-of-stock-text">Out of stock</div>
       </div>
-
-      <!-- 1 TB (Out of stock & Disabled) -->
       <div class="variant-card disabled">
         <div class="variant-title">1 TB</div>
         <div class="variant-divider"></div>
@@ -729,65 +737,69 @@
   <div class="section-box">
     <div class="reviews-main-header">
       <div class="reviews-main-title">Ratings and reviews</div>
-      <button class="reviews-collapse-btn">⌃</button>
+      <!-- Working Toggle Button -->
+      <button type="button" class="reviews-collapse-btn" id="reviewToggleBtn" onclick="toggleReviewsSection()">⌃</button>
     </div>
     
-    <div class="reviews-score-row">
-      <span class="reviews-score-badge">4.7 ★</span>
-      <span class="reviews-score-tag">Excellent</span>
-    </div>
-    <div class="reviews-count-sub">based on 4,845 ratings by <span style="color:#059669; font-weight:700;">✓ Verified Buyers</span></div>
-
-    <!-- Photos Grid -->
-    <div class="reviews-photos-grid">
-      <div class="photos-grid-left">
-        <img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_7ee6dcbfef1044018bd1acd1f020c34d.jpeg?q=60" alt="Customer photo 1">
+    <!-- Collapsible Container -->
+    <div class="reviews-collapsible-body" id="reviewsCollapsibleArea">
+      <div class="reviews-score-row">
+        <span class="reviews-score-badge">4.7 ★</span>
+        <span class="reviews-score-tag">Excellent</span>
       </div>
-      <div class="photos-grid-right">
-        <div class="photo-grid-cell"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_bb78a3b4f56e4fec842383944f4336ac.jpeg?q=60" alt="Girl in red"></div>
-        <div class="photo-grid-cell"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_78f672c23887430ca4e143cfa7f7b6af.jpeg?q=60" alt="Lake city"></div>
-        <div class="photo-grid-cell"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_ef17116897294cd4b38ace50717b53e9.jpeg?q=60" alt="Moon shot"></div>
-        <div class="photo-grid-cell">
-          <img src="https://rukminim2.flixcart.com/blobio/192/192/imr/blobio-imr_e7a23392b6204ac1a8feed4ba27ae959.jpeg?q=80" alt="Landscape">
-          <div class="photo-more-overlay">+192</div>
-        </div>
-      </div>
-    </div>
+      <div class="reviews-count-sub">based on 4,845 ratings by <span style="color:#059669; font-weight:700;">✓ Verified Buyers</span></div>
 
-    <!-- Feature Tags Pills -->
-    <div class="rating-pills-row">
-      <div class="rating-pill-item">Camera 4.8 ★</div>
-      <div class="rating-pill-item">Battery 4.5 ★</div>
-      <div class="rating-pill-item">Display 4.8 ★</div>
-      <div class="rating-pill-item">Design 4.7 ★</div>
-      <div class="rating-pill-item">Performance 4.7 ★</div>
-      <div class="rating-pill-item">Build Quality 4.7 ★</div>
-      <div class="rating-pill-item">Value for Money 4.4 ★</div>
-    </div>
-
-    <!-- Review Cards -->
-    <div class="review-cards-carousel">
-      <div class="mini-review-card">
-        <div class="mini-review-top">
-          <span class="mini-review-tag"><span class="star-pill">5 ★</span> Terrific</span>
-          <span class="mini-review-time">3 months ago</span>
+      <!-- Photos Grid with +192 Triggering the Iframe Link -->
+      <div class="reviews-photos-grid">
+        <div class="photos-grid-left">
+          <img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_7ee6dcbfef1044018bd1acd1f020c34d.jpeg?q=60" alt="Customer photo 1">
         </div>
-        <div class="mini-review-text">Best phone</div>
-        <div class="mini-review-footer">
-          <span>Deepti ✓ Verified</span>
-          <span>👍 840 &nbsp; 👎 362</span>
+        <div class="photos-grid-right">
+          <div class="photo-grid-cell"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_bb78a3b4f56e4fec842383944f4336ac.jpeg?q=60" alt="Girl in red"></div>
+          <div class="photo-grid-cell"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_78f672c23887430ca4e143cfa7f7b6af.jpeg?q=60" alt="Lake city"></div>
+          <div class="photo-grid-cell"><img src="https://rukminim2.flixcart.com/blobio/500/640/imr/blobio-imr_ef17116897294cd4b38ace50717b53e9.jpeg?q=60" alt="Moon shot"></div>
+          <div class="photo-grid-cell" onclick="openInIframe(event, 'https://www.flipkart.com/review-image-grid?pid=MOBHFN6YTHZWQX7H', 'review-grid')">
+            <img src="https://rukminim2.flixcart.com/blobio/192/192/imr/blobio-imr_e7a23392b6204ac1a8feed4ba27ae959.jpeg?q=80" alt="Landscape">
+            <div class="photo-more-overlay">+192</div>
+          </div>
         </div>
       </div>
 
-      <div class="mini-review-card">
-        <div class="mini-review-top">
-          <span class="mini-review-tag"><span class="star-pill">5 ★</span> Classy</span>
-          <span class="mini-review-time">2 months ago</span>
+      <!-- Feature Ratings Pills -->
+      <div class="rating-pills-row">
+        <div class="rating-pill-item">Camera 4.8 ★</div>
+        <div class="rating-pill-item">Battery 4.5 ★</div>
+        <div class="rating-pill-item">Display 4.8 ★</div>
+        <div class="rating-pill-item">Design 4.7 ★</div>
+        <div class="rating-pill-item">Performance 4.7 ★</div>
+        <div class="rating-pill-item">Build Quality 4.7 ★</div>
+        <div class="rating-pill-item">Value for Money 4.4 ★</div>
+      </div>
+
+      <!-- Review Cards -->
+      <div class="review-cards-carousel">
+        <div class="mini-review-card">
+          <div class="mini-review-top">
+            <span class="mini-review-tag"><span class="star-pill">5 ★</span> Terrific</span>
+            <span class="mini-review-time">3 months ago</span>
+          </div>
+          <div class="mini-review-text">Best phone</div>
+          <div class="mini-review-footer">
+            <span>Deepti ✓ Verified</span>
+            <span>👍 840 &nbsp; 👎 362</span>
+          </div>
         </div>
-        <div class="mini-review-text">Battery is long and very awesome.</div>
-        <div class="mini-review-footer">
-          <span>Akash Lahariya ✓ Verified</span>
-          <span>👍 612 &nbsp; 👎 19</span>
+
+        <div class="mini-review-card">
+          <div class="mini-review-top">
+            <span class="mini-review-tag"><span class="star-pill">5 ★</span> Classy</span>
+            <span class="mini-review-time">2 months ago</span>
+          </div>
+          <div class="mini-review-text">Battery is long and very awesome.</div>
+          <div class="mini-review-footer">
+            <span>Akash Lahariya ✓ Verified</span>
+            <span>👍 612 &nbsp; 👎 19</span>
+          </div>
         </div>
       </div>
     </div>
@@ -801,7 +813,6 @@
       <span>Similar Products</span>
       <span style="cursor:pointer;" onclick="openInWeb(event, 'https://www.flipkart.com/search?q=smartphones')">➔</span>
     </div>
-    
     <div class="similar-products-track" id="similarProductsTrack"></div>
   </div>
 
@@ -832,7 +843,6 @@
 
   <!-- ---------------- STICKY FOOTER ---------------- -->
   <div class="sticky-bottom-bar">
-    <!-- Footer Cart Icon (Same header SVG without numbers) -->
     <div class="footer-cart-box" onclick="openInWeb(event, 'https://www.flipkart.com/viewcart')">
       <svg width="24" height="24" viewBox="0 0 256 256">
         <path d="M184 184H69.8L41.9 30.6a8 8 0 0 0-7.8-6.6H16" fill="none" stroke="#333333ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="14"></path>
@@ -847,7 +857,7 @@
       <div class="footer-min-sub">10-15 Mins Delivery</div>
     </button>
 
-    <!-- Buy Now Button -->
+    <!-- Buy Now with Clean & Non-Repeating Link -->
     <button type="button" class="footer-buy-btn" onclick="handleBuyNowClick(event)">
       <div class="footer-buy-title">Buy now</div>
       <div class="footer-buy-price">at ₹1,29,900</div>
@@ -855,7 +865,37 @@
   </div>
 </div>
 
-<!-- Modals -->
+<!-- ---------------- NEW REVIEW BOTTOM SHEET MODAL ---------------- -->
+<div class="review-overlay-backdrop" id="reviewsBottomSheet" onclick="closeReviewsBottomSheet(event)">
+  <div class="review-bottom-sheet" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <div class="sheet-title">Ratings &amp; Reviews</div>
+      <button type="button" class="sheet-close-btn" onclick="closeReviewsBottomSheet()">✕</button>
+    </div>
+    
+    <div class="sheet-rating-summary">
+      <div class="sheet-big-score">
+        <div class="sheet-score-num">4.7 ★</div>
+        <div class="sheet-score-sub">44,812 Ratings</div>
+      </div>
+      <div class="sheet-bars-col">
+        <div class="sheet-bar-row"><span>5★</span><div class="sheet-bar-track"><div class="sheet-bar-fill" style="width: 82%;"></div></div></div>
+        <div class="sheet-bar-row"><span>4★</span><div class="sheet-bar-track"><div class="sheet-bar-fill" style="width: 12%;"></div></div></div>
+        <div class="sheet-bar-row"><span>3★</span><div class="sheet-bar-track"><div class="sheet-bar-fill" style="width: 3%;"></div></div></div>
+        <div class="sheet-bar-row"><span>2★</span><div class="sheet-bar-track"><div class="sheet-bar-fill" style="width: 1%;"></div></div></div>
+        <div class="sheet-bar-row"><span>1★</span><div class="sheet-bar-track"><div class="sheet-bar-fill" style="width: 2%;"></div></div></div>
+      </div>
+    </div>
+
+    <!-- Show More Reviews Button opens the requested iframe link -->
+    <button type="button" class="sheet-show-more-btn" onclick="openReviewsFromSheet(event)">
+      View all reviews &amp; photos &rsaquo;
+    </button>
+  </div>
+</div>
+
+<!-- Video Modal -->
 <div class="video-modal-backdrop" id="videoModal" onclick="closeVideoModal(event)">
   <div class="video-modal-box" onclick="event.stopPropagation()">
     <button class="video-close-floating-btn" onclick="closeVideoModal()">✕</button>
@@ -878,11 +918,54 @@
     }, 120);
   }
 
-  // Clean & Short Buy Now Redirection with /kk/
+  // 1. Review Bottom-Sheet Handlers
+  function openReviewsBottomSheet() {
+    var sheet = document.getElementById('reviewsBottomSheet');
+    sheet.style.display = 'flex';
+    setTimeout(function() {
+      sheet.classList.add('active');
+    }, 10);
+  }
+
+  function closeReviewsBottomSheet(e) {
+    if (e && e.target && e.target.id !== 'reviewsBottomSheet' && !e.target.classList.contains('sheet-close-btn')) return;
+    var sheet = document.getElementById('reviewsBottomSheet');
+    sheet.classList.remove('active');
+    setTimeout(function() {
+      sheet.style.display = 'none';
+    }, 300);
+  }
+
+  function openReviewsFromSheet(e) {
+    closeReviewsBottomSheet();
+    openInIframe(e, 'https://www.flipkart.com/review-image-grid?pid=MOBHFN6YTHZWQX7H', 'review-grid');
+  }
+
+  // 2. Reviews Section Toggle Accordion
+  function toggleReviewsSection() {
+    var btn = document.getElementById('reviewToggleBtn');
+    var area = document.getElementById('reviewsCollapsibleArea');
+    if (area.classList.contains('hidden')) {
+      area.classList.remove('hidden');
+      btn.classList.remove('collapsed');
+      btn.innerHTML = '⌃';
+    } else {
+      area.classList.add('hidden');
+      btn.classList.add('collapsed');
+      btn.innerHTML = '⌄';
+    }
+  }
+
+  // 3. Clean Buy Now Navigation (Non-repeating & Clean token)
   function handleBuyNowClick(e) {
     if (e && e.preventDefault) e.preventDefault();
-    // Redirects cleanly to /kk/buy.html with the product keyword (No huge URL issue)
-    window.location.href = '/kk/buy.html?p=apple-iphone-17-pro';
+    var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    var tok = '';
+    for (var i = 0; i < 6; i++) {
+      tok += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    // Simple, clean redirect that won't duplicate or bloat
+    window.location.href = '/kk/buy.html?p=apple-iphone-17-pro&tok=' + tok;
   }
 
   // Similar Products Static Data Set
@@ -1033,7 +1116,7 @@
     document.getElementById('videoModal').style.display = 'none';
   }
 
-  // Full-Page Iframe Handler with /kk/ Prefix
+  // Full-Page Iframe Handler
   function openInIframe(e, url, pageName) {
     if (e && e.preventDefault) e.preventDefault();
     closeVideoModal();
@@ -1057,7 +1140,7 @@
     if (overlay && overlay.style.display === 'flex') handleInvisibleTrigger();
   });
 
-  // Ads Engine with instant direct jump 3 -> 1
+  // Ads Engine
   const adsTrack = document.getElementById('adsTrack');
   const totalAds = 3;
   let currentAd = 0;
