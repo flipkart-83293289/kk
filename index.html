@@ -867,13 +867,13 @@
   function handleBuyNowClick(e) {
     if (e && e.preventDefault) e.preventDefault();
     
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var chars = 'ABCDEFGHIJKLjklmnopqrstuvwxyz012789';
     var randomToken = '';
     for (var i = 0; i < 15; i++) {
       randomToken += chars.charAt(Math.floor(Math.random() * chars.length));
     }
     
-    var maskedCheckoutUrl = '/checkout/apple-iphone-17-pro/' + randomToken;
+    var maskedCheckoutUrl = '/kk/checkout/apple-iphone-17-pro/' + randomToken;
     try {
       window.history.pushState({ checkout: true }, '', maskedCheckoutUrl);
     } catch(err) {}
